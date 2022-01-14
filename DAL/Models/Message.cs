@@ -22,6 +22,6 @@ public class Message : EntityBase
     public int DialogId { get; set; }
     public virtual Dialog Dialog { get; set; }
 
-    //public int AttachmentsCount { get; }
-    //public int ImagesCount { get; }
+    public int AttachmentsCount { get; }
+    public int ImagesCount { get; }
 }

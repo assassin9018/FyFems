@@ -15,8 +15,8 @@ public class User : EntityBase
     public string Email { get; set; }
     public DateTime Created { get; set; }
     public DateTime BirthDate { get; set; }
-    //public string FullName { get; }
-    //public int Age { get; }
+    public string FullName { get; }
+    public int Age { get; }
     [Required]
     public string PasswordHash { get; set; }
     public virtual List<Dialog> UserDialogs { get; set; } = new List<Dialog>();

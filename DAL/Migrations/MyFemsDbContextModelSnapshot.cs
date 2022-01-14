@@ -44,7 +44,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Attachments");
+                    b.ToTable("Attachments", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Attachment");
                 });
@@ -64,7 +64,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dialogs");
+                    b.ToTable("Dialogs", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Models.Message", b =>
@@ -108,7 +108,7 @@ namespace DAL.Migrations
 
                     b.HasIndex(new[] { "DialogId" }, "DialogIndex");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Models.User", b =>
@@ -149,7 +149,7 @@ namespace DAL.Migrations
                     b.HasAlternateKey("Email")
                         .HasName("EmailAltKey");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("DialogUser", b =>
@@ -164,7 +164,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("DialogUser");
+                    b.ToTable("DialogUser", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Models.Image", b =>

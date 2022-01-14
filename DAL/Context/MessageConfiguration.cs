@@ -8,12 +8,14 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
 {
     public void Configure(EntityTypeBuilder<Message> builder)
     {
-        //builder
-        //    .Property(x => x.AttachmentsCount)
-        //    .HasComputedColumnSql<int>($"cardinality(\"{nameof(Message.Attachments)}\")", true);
+        const string tableName = $"\"{nameof(Message)}s\"";
 
-        //builder
-        //    .Property(x => x.ImagesCount)
-        //    .HasComputedColumnSql<int>($"cardinality(\"{nameof(Message.Images)}\")", true);
+        builder
+            .Property(x => x.AttachmentsCount)
+            .HasComputedColumnSql<int>($"cardinality(\"{nameof(Message.Attachments)}\")", true);
+
+        builder
+            .Property(x => x.ImagesCount)
+            .HasComputedColumnSql<int>($"cardinality(\"{nameof(Message.Images)}\")", true);
     }
 }
