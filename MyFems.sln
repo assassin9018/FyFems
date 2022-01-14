@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFemsApi", "MyFemsApi\MyFemsApi.csproj", "{4827513D-D649-4E7D-83B3-A72732F46627}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{91716E3B-F260-4A9C-B67A-D944B013636A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{0713BF12-1711-4CDB-A5A5-2429CC584042}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{99DE2009-DE2E-49BB-B47F-9789A97ABE27}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFemsMauiClient", "MyFemsMauiClient\MyFemsMauiClient.csproj", "{0BB9583F-4C12-46B8-9D1D-8ACE29D40713}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFemsWpfClient", "MyFemsWpfClient\MyFemsWpfClient.csproj", "{1667C24F-9CD0-4D88-9401-B072E6EBE024}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{F3B6B3F1-3D2E-47DA-B7B1-0C14CFA3BFB0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4827513D-D649-4E7D-83B3-A72732F46627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4827513D-D649-4E7D-83B3-A72732F46627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4827513D-D649-4E7D-83B3-A72732F46627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4827513D-D649-4E7D-83B3-A72732F46627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB9583F-4C12-46B8-9D1D-8ACE29D40713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB9583F-4C12-46B8-9D1D-8ACE29D40713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB9583F-4C12-46B8-9D1D-8ACE29D40713}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0BB9583F-4C12-46B8-9D1D-8ACE29D40713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB9583F-4C12-46B8-9D1D-8ACE29D40713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1667C24F-9CD0-4D88-9401-B072E6EBE024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1667C24F-9CD0-4D88-9401-B072E6EBE024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1667C24F-9CD0-4D88-9401-B072E6EBE024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1667C24F-9CD0-4D88-9401-B072E6EBE024}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3B6B3F1-3D2E-47DA-B7B1-0C14CFA3BFB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3B6B3F1-3D2E-47DA-B7B1-0C14CFA3BFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3B6B3F1-3D2E-47DA-B7B1-0C14CFA3BFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3B6B3F1-3D2E-47DA-B7B1-0C14CFA3BFB0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4827513D-D649-4E7D-83B3-A72732F46627} = {91716E3B-F260-4A9C-B67A-D944B013636A}
+		{0BB9583F-4C12-46B8-9D1D-8ACE29D40713} = {0713BF12-1711-4CDB-A5A5-2429CC584042}
+		{1667C24F-9CD0-4D88-9401-B072E6EBE024} = {0713BF12-1711-4CDB-A5A5-2429CC584042}
+		{F3B6B3F1-3D2E-47DA-B7B1-0C14CFA3BFB0} = {91716E3B-F260-4A9C-B67A-D944B013636A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {003CD484-846C-4CFB-9238-AB931301DB8F}
+	EndGlobalSection
+EndGlobal
