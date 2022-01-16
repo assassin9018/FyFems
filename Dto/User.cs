@@ -21,4 +21,14 @@ public class RegUser : AuthRequest
     [Range(1, 32)]
     public string Surname { get; set; }
     public DateTime BirthDate { get; set; }
+    [Required]
+    [Phone]
+    public string Phone { get; set; }
+}
+
+public class ChangePassRequest : AuthRequest
+{
+    [Required]
+    [Range(8, 32)]
+    public string NewPassword { get; set; }
 }

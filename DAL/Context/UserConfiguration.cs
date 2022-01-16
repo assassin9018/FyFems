@@ -12,6 +12,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasAlternateKey(x => x.Email)
             .HasName("EmailAltKey");
 
+        builder
+            .HasIndex(x => x.Phone)
+            .IsUnique(true);
+
         const string tableName = $"\"{nameof(User.Surname)}s\"";
 
         builder

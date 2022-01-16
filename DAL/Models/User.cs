@@ -13,6 +13,9 @@ public class User : EntityBase
     [Required]
     [MaxLength(48)]
     public string Email { get; set; }
+    [Required]
+    [Phone]
+    public string Phone { get; set; }
     public DateTime Created { get; set; }
     public DateTime BirthDate { get; set; }
     public string FullName { get; }
