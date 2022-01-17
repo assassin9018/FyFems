@@ -47,7 +47,7 @@ public static class ConfigOptions
             Key = section.GetValue<string>(KEY);
         }
 
-        public SecurityKey GetSymmetricKey() 
+        public SecurityKey GetSymmetricKey()
             => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
     }
 

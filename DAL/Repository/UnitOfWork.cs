@@ -48,9 +48,9 @@ public class UnitOfWork : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if(!disposedValue)
         {
-            if (disposing)
+            if(disposing)
                 _context.Dispose();
             disposedValue = true;
         }

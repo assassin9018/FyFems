@@ -64,7 +64,7 @@ public class PostgreRepository<TEntity> : IRepository<TEntity> where TEntity : E
 
     public void Delete(IEnumerable<TEntity> entities)
     {
-        foreach (var item in entities)
+        foreach(var item in entities)
             dbSet.Remove(item);
     }
 
@@ -80,14 +80,14 @@ public class PostgreRepository<TEntity> : IRepository<TEntity> where TEntity : E
         string includeProperties = "")
     {
         IQueryable<TEntity> query = dbSet.AsQueryable();
-        if (filter != null)
+        if(filter != null)
             query = query.Where(filter);
 
-        foreach (var includeProperty in includeProperties.Split
+        foreach(var includeProperty in includeProperties.Split
             (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             query = query.Include(includeProperty);
 
-        if (orderBy != null)
+        if(orderBy != null)
             query = orderBy(query);
 
         return query.ToList();

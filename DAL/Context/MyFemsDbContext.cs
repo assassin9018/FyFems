@@ -38,7 +38,7 @@ public class MyFemsDbContext : DbContext
     #region Stored functions
     #endregion
     #region Stored procedures
-    public IQueryable<Message> GetDialogMessages(int dialogId, int messageMinId) 
+    public IQueryable<Message> GetDialogMessages(int dialogId, int messageMinId)
         => FromExpression(() => GetDialogMessages(dialogId, messageMinId));
     #endregion
 }

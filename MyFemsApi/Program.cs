@@ -1,14 +1,11 @@
-global using DAL.Repository;
-global using MyFemsApi.Exceptions;
 global using DAL.Models;
+global using DAL.Repository;
 global using MyFems.Dto;
+global using MyFemsApi.Exceptions;
 using DAL.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using MyFemsApi;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,8 +43,8 @@ void ConfigureServices(IServiceCollection services)
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
 
-AddJwt(services);
-services.AddAuthentication("Coockies").AddCookie();
+    AddJwt(services);
+    services.AddAuthentication("Coockies").AddCookie();
 }
 
 void AddJwt(IServiceCollection services)
