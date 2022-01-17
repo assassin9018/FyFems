@@ -1,5 +1,7 @@
 global using DAL.Repository;
 global using MyFemsApi.Exceptions;
+global using DAL.Models;
+global using MyFems.Dto;
 using DAL.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

@@ -6,14 +6,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using DtoUser = MyFems.Dto.User;
-using ModelUser = DAL.Models.User;
 
 namespace MyFemsApi.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UsersController : Controller
 {
     private readonly IMapper _mapper;
@@ -25,29 +23,34 @@ public class UsersController : Controller
         _unitOfWork = unitOfWork;
     }
 
-    [HttpPost]
+    /// <summary>
+    /// Метод регистрации нового пользователя.
+    /// </summary>
+    /// <param name="user">Новый пользователь.</param>
+    /// <returns>При успешной регистрации DTO нового пользователя.</returns>
+    [HttpPost("Reg")]
     [AllowAnonymous]
-    public async Task<IActionResult> Post([Required, FromBody] MyFems.Dto.RegUser user)
+    public async Task<ActionResult<UserDto>> Registration([Required, FromBody] RegUserDto user)
     {
-        var dbUser = _mapper.Map<MyFems.Dto.RegUser, ModelUser>(user);
+        var dbUser = _mapper.Map<RegUserDto, User>(user);
         await _unitOfWork.UserRepository.SaveAsync(dbUser);
-        return Ok(_mapper.Map<ModelUser, DtoUser>(dbUser));
+        return Ok(_mapper.Map<User, UserDto>(dbUser));
     }
 
     /// <summary>
-    /// 
+    /// Метод аутентификации пользователя.
     /// </summary>
-    /// <param name="configuration"></param>
-    /// <param name="hasher"></param>
-    /// <param name="request"></param>
+    /// <param name="configuration">Конфигурация сервиса.</param>
+    /// <param name="hasher">Класс для хэширования и валидации паролей.</param>
+    /// <param name="request">Запрос авторизации.</param>
     /// <returns>JWT Token.</returns>
     /// <remarks>При дальнейших запросах к API необходимо в Header'ах указывать  "Authorization": "Bearer " + token</remarks>
-    /// <exception cref="NotFoundException"></exception>
-    [HttpGet]
+    /// <exception cref="NotFoundException">При ошибке в паре почта\пароль.</exception>
+    [HttpGet("Login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login([FromServices] IConfiguration configuration, [FromServices] PasswordHasher<ModelUser> hasher, [FromBody] MyFems.Dto.AuthRequest request)
+    public async Task<IActionResult> Login([FromServices] IConfiguration configuration, [FromServices] PasswordHasher<User> hasher, [FromBody] AuthRequest request)
     {
-        ModelUser? user = (await _unitOfWork.UserRepository.GetAsync(x => x.Email == request.Email)).FirstOrDefault();
+        User? user = (await _unitOfWork.UserRepository.GetAsync(x => x.Email == request.Email)).FirstOrDefault();
         if(user is null || hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) != PasswordVerificationResult.Success)
             throw new NotFoundException();
 
@@ -68,22 +71,22 @@ public class UsersController : Controller
         return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
     }
 
-    [HttpGet("{searchText}")]
+    [HttpGet("Search/{searchText}")]
     public async Task<IActionResult> Search(string searchText)
     {
         var users = (await _unitOfWork.UserRepository.GetAsync(u => u.FullName.Contains(searchText, StringComparison.OrdinalIgnoreCase))).ToList();
 
-        List<DtoUser> dtoUsers = new(users.Count);
+        List<UserDto> dtoUsers = new(users.Count);
         foreach(var user in users)
-            dtoUsers.Add(_mapper.Map<ModelUser, DtoUser>(user));
+            dtoUsers.Add(_mapper.Map<User, UserDto>(user));
 
         return Ok(dtoUsers);
     }
 
-    [HttpPatch]
-    public async Task<IActionResult> ChangePassword([FromBody] MyFems.Dto.ChangePassRequest request, [FromServices] PasswordHasher<ModelUser> hasher)
+    [HttpPatch("ChangePass")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePassRequest request, [FromServices] PasswordHasher<User> hasher)
     {
-        var user = (await _unitOfWork.UserRepository.GetAsync(u => u.Email == request.Email)).FirstOrDefault();
+        User? user = (await _unitOfWork.UserRepository.GetAsync(u => u.Email == request.Email)).FirstOrDefault();
         if(user is null)
             throw new NotFoundException(nameof(user));
 

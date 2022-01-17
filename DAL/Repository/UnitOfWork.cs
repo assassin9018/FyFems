@@ -15,6 +15,7 @@ public class UnitOfWork : IDisposable
     private IRepository<Image>? _imageRepository;
     private IRepository<Message>? _messageRepository;
     private IRepository<User>? _userRepository;
+    private IRepository<ContactRequest>? _contactRequestsRepository;
 
     public IRepository<Attachment> AttachmentRepository
         => _attachmentRepository ??= CreateRepository<Attachment>();
@@ -26,6 +27,8 @@ public class UnitOfWork : IDisposable
         => _messageRepository ??= CreateRepository<Message>();
     public IRepository<User> UserRepository
         => _userRepository ??= CreateRepository<User>();
+    public IRepository<ContactRequest> ContactRequestsRepository
+        => _contactRequestsRepository ??= CreateRepository<ContactRequest>();
     #endregion
 
     public UnitOfWork(MyFemsDbContext context)

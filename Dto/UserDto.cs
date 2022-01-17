@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyFems.Dto;
 
-public class User : BaseDto
+public class UserDto : BaseDto
 {
     public string Name { get; set; }
     public string Surname { get; set; }
@@ -12,7 +12,7 @@ public class User : BaseDto
     public int Age { get; set; }
 }
 
-public class RegUser : AuthRequest
+public class RegUserDto : AuthRequest
 {
     [Required]
     [MinLength(1)]
