@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyFems.Dto;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyFemsApi.Controllers;
@@ -23,7 +22,7 @@ public class ImagesController : Controller
     /// <param name="image"></param>
     /// <returns>Идентификатор созданного изображения</returns>
     [HttpPost]
-    public async Task<ActionResult<ImageDto>> GetImage([Required, FromBody] ImageDto image)
+    public async Task<ActionResult<int>> PostImage([Required, FromBody] ImageDto image)
     {
         return Ok(int.MaxValue);
     }

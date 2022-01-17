@@ -9,5 +9,9 @@ namespace MyFemsApi.Controllers;
 [Route("api/[controller]")]
 public class MessagesController : Controller
 {
-
+    [HttpPost("{dialogId}")]
+    public async Task<IActionResult> SendMessage([FromBody] MessageDto request)
+    {
+        return Ok();
+    }
 }
