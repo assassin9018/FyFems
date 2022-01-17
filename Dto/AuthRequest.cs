@@ -10,6 +10,7 @@ public class AuthRequest
     [EmailAddress]
     public string Email { get; set; }
     [Required]
-    [Range(8, 32)]
+    [MinLength(8)]
+    [MaxLength(32)]
     public string Password { get; set; }
 }

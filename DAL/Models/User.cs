@@ -17,7 +17,7 @@ public class User : EntityBase
     [Phone]
     public string Phone { get; set; }
     public DateTime Created { get; set; }
-    public DateTime BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
     public string FullName { get; }
     public int Age { get; }
     [Required]

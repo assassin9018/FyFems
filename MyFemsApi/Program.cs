@@ -47,7 +47,7 @@ void ConfigureServices(IServiceCollection services)
     services.AddNpgsql<MyFemsDbContext>(connection);
     services.AddScoped<UnitOfWork>();
 
-    services.AddAutoMapper(MapperConfig.Init);
+    services.AddAutoMapper(MapperProfile.Init);
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();
