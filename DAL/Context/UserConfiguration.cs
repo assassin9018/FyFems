@@ -16,11 +16,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasIndex(x => x.Phone)
             .IsUnique(true);
 
-        const string tableName = $"\"{nameof(User.Surname)}s\"";
+        const string tableName = $"\"{nameof(User)}s\"";
 
         builder
             .Property(x => x.FullName)
-            .HasComputedColumnSql($"{tableName}.\"{nameof(User.Surname)}\" + ' ' + {tableName}.\"{nameof(User.Name)}\"", true);
+            .HasComputedColumnSql($"{tableName}.\"{nameof(User.Surname)}\" || ' ' || {tableName}.\"{nameof(User.Name)}\"", true);
 
         string ageSql = $"(f_person_age({tableName}.\"{nameof(User.BirthDate)}\"))";
         builder
