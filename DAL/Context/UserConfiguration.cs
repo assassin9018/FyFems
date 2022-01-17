@@ -22,7 +22,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .Property(x => x.FullName)
             .HasComputedColumnSql($"{tableName}.\"{nameof(User.Surname)}\" || ' ' || {tableName}.\"{nameof(User.Name)}\"", true);
 
-        string ageSql = $"(f_person_age({tableName}.\"{nameof(User.BirthDate)}\"))";
+        string ageSql = $"(f_person_age(\"{nameof(User.BirthDate)}\"))";
         builder
             .Property(x => x.Age)
             .HasComputedColumnSql(ageSql, true);
