@@ -12,13 +12,19 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasAlternateKey(x => x.Email)
             .HasName("EmailAltKey");
 
-        //builder
-        //    .Property(x => x.FullName)
-        //    .HasComputedColumnSql($"\"{nameof(User.Surname)}\" + ' ' + \"{nameof(User.Name)}\"", true);
+        builder
+            .HasIndex(x => x.Phone)
+            .IsUnique(true);
 
-        //const string ageSql = $"(YEAR(GETDATE()) - YEAR(\"{nameof(User.BirthDate)}\")) - (DATE_FORMAT(GETDATE(), '%m%d') < DATE_FORMAT(\"{nameof(User.BirthDate)}\", '%m%d'))";
-        //builder
-        //    .Property(x => x.Age)
-        //    .HasComputedColumnSql(ageSql, true);
+        const string tableName = $"\"{nameof(User.Surname)}s\"";
+
+        builder
+            .Property(x => x.FullName)
+            .HasComputedColumnSql($"{tableName}.\"{nameof(User.Surname)}\" + ' ' + {tableName}.\"{nameof(User.Name)}\"", true);
+
+        string ageSql = $"(f_person_age({tableName}.\"{nameof(User.BirthDate)}\"))";
+        builder
+            .Property(x => x.Age)
+            .HasComputedColumnSql(ageSql, true);
     }
 }

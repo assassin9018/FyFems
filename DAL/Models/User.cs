@@ -13,10 +13,13 @@ public class User : EntityBase
     [Required]
     [MaxLength(48)]
     public string Email { get; set; }
+    [Required]
+    [Phone]
+    public string Phone { get; set; }
     public DateTime Created { get; set; }
-    public DateTime BirthDate { get; set; }
-    //public string FullName { get; }
-    //public int Age { get; }
+    public DateOnly BirthDate { get; set; }
+    public string FullName { get; }
+    public int Age { get; }
     [Required]
     public string PasswordHash { get; set; }
     public virtual List<Dialog> UserDialogs { get; set; } = new List<Dialog>();
