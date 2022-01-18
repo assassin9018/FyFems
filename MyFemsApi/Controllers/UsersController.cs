@@ -71,6 +71,16 @@ public class UsersController : Controller
         return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
     }
 
+    /// <summary>
+    /// Возвращает информацию о залогиненом пользователе.
+    /// </summary>
+    /// <returns>Информация о залогиненом пользователе.</returns>
+    [HttpGet("WhoAmI")]
+    public async Task<ActionResult<UserDto>> WhoAmI()
+    {
+        return Ok(new UserDto());
+    }
+
     [HttpGet("Search/{searchText}")]
     public async Task<IActionResult> Search(string searchText)
     {
