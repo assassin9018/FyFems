@@ -15,6 +15,7 @@ public class UnitOfWork : IDisposable
     private IRepository<Image>? _imageRepository;
     private IRepository<Message>? _messageRepository;
     private IRepository<User>? _userRepository;
+    private IRepository<Contact>? _contactsRepository;
     private IRepository<ContactRequest>? _contactRequestsRepository;
 
     public IRepository<Attachment> AttachmentRepository
@@ -27,6 +28,8 @@ public class UnitOfWork : IDisposable
         => _messageRepository ??= CreateRepository<Message>();
     public IRepository<User> UserRepository
         => _userRepository ??= CreateRepository<User>();
+    public IRepository<Contact> ContactsRepository
+        => _contactsRepository ??= CreateRepository<Contact>();
     public IRepository<ContactRequest> ContactRequestsRepository
         => _contactRequestsRepository ??= CreateRepository<ContactRequest>();
     #endregion

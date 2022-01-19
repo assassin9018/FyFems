@@ -22,5 +22,7 @@ public class User : EntityBase
     public int Age { get; }
     [Required]
     public string PasswordHash { get; set; }
-    public virtual List<Dialog> UserDialogs { get; set; } = new List<Dialog>();
+    public virtual List<Dialog> UserDialogs { get; set; } = new();
+    [System.ComponentModel.DataAnnotations.Schema.InverseProperty(nameof(Contact.User))]
+    public virtual List<Contact> Contacts { get; set; } = new();
 }

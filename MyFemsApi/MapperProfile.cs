@@ -18,6 +18,5 @@ public class MapperProfile : Profile
     {
         //config.AddProfile<MapperProfile>();
 
-
     }
 }

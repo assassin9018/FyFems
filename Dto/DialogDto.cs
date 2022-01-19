@@ -10,3 +10,9 @@ public class DialogDto : BaseDto
     public bool IsPrivate { get; set; }
     public List<int> UsersId { get; set; }
 }
+
+public class ConversationRequest : BaseDto
+{
+    public string Name { get; set; }
+    public List<int> UserIds { get; set; }
+}
