@@ -2,6 +2,7 @@
 
 namespace DAL.Models;
 
+#nullable disable
 public class Dialog : EntityBase
 {
     [Required]

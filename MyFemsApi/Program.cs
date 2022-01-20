@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using MyFemsApi;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +39,7 @@ void ConfigureServices(IServiceCollection services)
     services.AddNpgsql<MyFemsDbContext>(connection);
     services.AddScoped<UnitOfWork>();
 
-    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    services.AddAutoMapper(Assembly.GetAssembly(typeof(MapperProfile)));
     services.AddScoped<PasswordHasher<User>>();
     services.Configure<PasswordHasherOptions>(option =>
     {

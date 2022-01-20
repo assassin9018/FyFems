@@ -4,14 +4,15 @@ namespace MyFems.Dto;
 
 public class ContactDto : BaseDto
 {
-    public int FromId { get; set; }
-    public string FromFullName { get; set; }
+    public int DialogId { get; set; }
+    public int UserId { get; set; }
     public int ToId { get; set; }
-    public string ToFullName { get; set; }
 }
 
-public class ContactRequestDto : ContactDto
+public class ContactRequestDto : BaseDto
 {
+    public int FromId { get; set; }
+    public int ToId { get; set; }
     public ContactRequestDtoStatus Status { get; set; }
 }
 

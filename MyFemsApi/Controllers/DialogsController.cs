@@ -78,12 +78,39 @@ public class DialogsController : BaseController
 
         Dialog dialog = new()
         {
-            IsPrivate = true,
+            IsPrivate = false,
             LastModified = DateTime.UtcNow,
-            Name = string.Empty,
+            Name = request.Name,
             Users = dudes
         };
 
         return Ok(_mapper.Map<DialogDto>(dialog));
+    }
+
+    [HttpGet("users/{dialogId}")]
+    public async Task<ActionResult<DialogUsersOnly>> GetDialogUsers(int dialogId)
+    {
+        Dialog dialog = (await _unit.DialogRepository
+            .GetAsync(x => x.Id == dialogId, includeProperties: nameof(Dialog.Users)))
+            .FirstOrDefault() ?? throw new NotFoundException();
+
+        if(!dialog.Users.Any(x => x.Id == RequestUserId))
+            throw new NotFoundException();
+
+        return Ok(_mapper.Map<DialogUsersOnly>(dialog));
+    }
+
+    [HttpGet("modificationDates")]
+    public async Task<ActionResult<List<DialogLastModifiedOnly>>> GetLastModificationDates()
+    {
+        var userWithDialogs = (await _unit.UserRepository
+            .GetAsync(x => x.Id == RequestUserId, includeProperties: nameof(DAL.Models.User.UserDialogs)))
+            .FirstOrDefault() ?? throw new NotFoundException();
+
+        List<DialogLastModifiedOnly> result = userWithDialogs.UserDialogs
+            .Select(x=>_mapper.Map<DialogLastModifiedOnly>(x))
+            .ToList();
+
+        return Ok(result);
     }
 }

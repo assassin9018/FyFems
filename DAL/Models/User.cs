@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Models;
 
+#nullable disable
 public class User : EntityBase
 {
     [Required]
@@ -16,13 +18,14 @@ public class User : EntityBase
     [Required]
     [Phone]
     public string Phone { get; set; }
-    public DateTime Created { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime Created { get; set; } = DateTime.UtcNow;
     public DateOnly BirthDate { get; set; }
     public string FullName { get; }
     public int Age { get; }
     [Required]
     public string PasswordHash { get; set; }
     public virtual List<Dialog> UserDialogs { get; set; } = new();
-    [System.ComponentModel.DataAnnotations.Schema.InverseProperty(nameof(Contact.User))]
+    [InverseProperty(nameof(Contact.User))]
     public virtual List<Contact> Contacts { get; set; } = new();
 }

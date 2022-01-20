@@ -1,5 +1,6 @@
 ﻿namespace DAL.Models;
 
+#nullable disable
 public class ContactRequest : EntityBase
 {
     public int FromId { get; set; }

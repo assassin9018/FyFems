@@ -34,7 +34,6 @@ public class UsersController : BaseController
     {
         var dbUser = _mapper.Map<RegUserDto, User>(regRequest);
         dbUser.PasswordHash = hasher.HashPassword(dbUser, regRequest.Password);
-        dbUser.Created = DateTime.UtcNow;
         await _unitOfWork.UserRepository.SaveAsync(dbUser);
         await _unitOfWork.SaveAsync();
         return Ok(_mapper.Map<User, UserDto>(dbUser));

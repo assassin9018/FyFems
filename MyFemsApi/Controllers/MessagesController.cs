@@ -19,19 +19,22 @@ public class MessagesController : BaseController
     }
 
     [HttpPost("{dialogId}")]
-    public async Task<IActionResult> SendMessage([FromBody] MessageDto messageRequest)
+    public async Task<IActionResult> SendMessage([FromBody] MessageRequest messageRequest)
     {
         const string userProps = nameof(DAL.Models.User.UserDialogs);
-        bool insertAllowed = (await _unit.UserRepository
-            .GetAsync(x=>x.Id==RequestUserId, includeProperties: userProps))
+        int fromUserId = RequestUserId;
+        Dialog? dialog = (await _unit.UserRepository
+            .GetAsync(x => x.Id == fromUserId, includeProperties: userProps))
             .First().UserDialogs
-            .Any(x=>x.Id == messageRequest.DialogId);
-        if(!insertAllowed)
-            throw new ApiException("Insertion not allowed.");
+            .FirstOrDefault(x => x.Id == messageRequest.DialogId);
+        if(dialog is null)
+            throw new NotFoundException("Dialog not found.");
 
         Message message = _mapper.Map<Message>(messageRequest);
-        message.Created = DateTime.UtcNow;
+        message.From = fromUserId;
+        dialog.LastModified = DateTime.UtcNow;
         _unit.MessageRepository.Save(message);
+        _unit.DialogRepository.Save(dialog);
         await _unit.SaveAsync();
 
         return Ok();
