@@ -3,6 +3,7 @@ using System;
 using DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(MyFemsDbContext))]
-    partial class MyFemsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220119124019_StructureChanged")]
+    partial class StructureChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,9 +61,6 @@ namespace DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DialogId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ToId")
                         .HasColumnType("integer");
 
@@ -69,8 +68,6 @@ namespace DAL.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DialogId");
 
                     b.HasIndex("ToId");
 
@@ -119,9 +116,6 @@ namespace DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsPrivate")
                         .HasColumnType("boolean");
 
@@ -157,7 +151,6 @@ namespace DAL.Migrations
                         .HasColumnType("character varying(512)");
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("DialogId")
@@ -200,7 +193,6 @@ namespace DAL.Migrations
                         .HasColumnType("date");
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
@@ -267,12 +259,6 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.Contact", b =>
                 {
-                    b.HasOne("DAL.Models.Dialog", "Dialog")
-                        .WithMany()
-                        .HasForeignKey("DialogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DAL.Models.User", "To")
                         .WithMany()
                         .HasForeignKey("ToId")
@@ -284,8 +270,6 @@ namespace DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Dialog");
 
                     b.Navigation("To");
 

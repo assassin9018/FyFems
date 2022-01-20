@@ -7,8 +7,8 @@ namespace DAL.Repository
     {
         void Delete(IEnumerable<TEntity> entities);
         Task DeleteAsync(IEnumerable<TEntity> entities);
-        TEntity Find(object id);
-        Task<TEntity> FindAsync(object id);
+        TEntity? Find(object id);
+        Task<TEntity?> FindAsync(object id);
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>>? filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             string includeProperties = "");

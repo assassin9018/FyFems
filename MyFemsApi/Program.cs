@@ -4,8 +4,10 @@ global using MyFems.Dto;
 global using MyFemsApi.Exceptions;
 using DAL.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using MyFemsApi;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,17 +16,17 @@ ConfigureServices(builder.Services);
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 // Configure the HTTP request pipeline.
 if(app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 
@@ -37,14 +39,29 @@ void ConfigureServices(IServiceCollection services)
     services.AddNpgsql<MyFemsDbContext>(connection);
     services.AddScoped<UnitOfWork>();
 
-    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    services.AddAutoMapper(Assembly.GetAssembly(typeof(MapperProfile)));
+    services.AddScoped<PasswordHasher<User>>();
+    services.Configure<PasswordHasherOptions>(option =>
+    {
+        option.IterationCount = 1000;
+    });
+    services.Configure<IdentityOptions>(options =>
+    {
+        // Default Password settings.
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 8;
+        options.Password.RequiredUniqueChars = 1;
+    });
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
 
     AddJwt(services);
-    services.AddAuthentication("Coockies").AddCookie();
+    //services.AddAuthentication("Coockies").AddCookie();
 }
 
 void AddJwt(IServiceCollection services)

@@ -13,7 +13,7 @@ public class Client
     private string? _email;
     private string? _password;
 
-    public Client(string serviceUrl, string? email, string? password)
+    public Client(string serviceUrl, string? email, string? password, string? refreshToken = null)
     {
         _serviceUrl = serviceUrl;
         _email = email;
@@ -23,11 +23,12 @@ public class Client
             BaseUrl = new Uri(_serviceUrl + _basePartUrl),
             Timeout = 60,
         });
-        if(email is not null && password is not null)
-        {
+        _refreshToken = refreshToken;
+
+        if(email is not null && password is not null && _refreshToken is null)
             UpdateRefreshToken().ConfigureAwait(false).GetAwaiter().GetResult();
+        if(_refreshToken is not null)
             UpdateAccessToken().ConfigureAwait(false).GetAwaiter().GetResult();
-        }
     }
 
     #region Private methods
@@ -81,8 +82,13 @@ public class Client
 
     private async Task UpdateAccessToken()
     {
-        throw new NotImplementedException();
+        _accessToken = await Login(new()
+        {
+            Email = _email,
+            Password= _password,
+        });
     }
+
     #endregion
 
     #region Attachments
@@ -119,16 +125,16 @@ public class Client
         return response ?? throw RequestException.NullResponce<List<ContactRequestDto>>();
     }
 
-    public async Task<ContactRequestDto> SendContactRequest(int contactId)//post
+    public async Task<ContactRequestDto> SendContactRequest(int toUserId)
     {
-        var restRequest = new RestRequest($"{Requests}send/{contactId}", Method.Post);
+        var restRequest = new RestRequest($"{Requests}send/{toUserId}", Method.Post);
 
         var response = await ExecuteWithAuth<ContactRequestDto>(restRequest);
 
         return response ?? throw RequestException.NullResponce<ContactRequestDto>();
     }
 
-    public async Task<ContactRequestDto> ApplyContactRequest(int requestId)//patch
+    public async Task<ContactRequestDto> ApplyContactRequest(int requestId)
     {
         var restRequest = new RestRequest($"{Requests}apply/{requestId}", Method.Patch);
 
@@ -137,7 +143,7 @@ public class Client
         return response ?? throw RequestException.NullResponce<ContactRequestDto>();
     }
 
-    public async Task<ContactRequestDto> DeclineContactRequest(int requestId)//patch
+    public async Task<ContactRequestDto> DeclineContactRequest(int requestId)
     {
         var restRequest = new RestRequest($"{Requests}decline/{requestId}", Method.Patch);
 
@@ -168,6 +174,34 @@ public class Client
         var response = await ExecuteWithAuth<DialogDto>(restRequest);
 
         return response ?? throw RequestException.NullResponce<DialogDto>();
+    }
+
+    public async Task<DialogDto> PostConversation(ConversationRequest requestDto)
+    {
+        var restRequest = new RestRequest($"{Dialogs}", Method.Post).
+            AddBody(requestDto);
+
+        var response = await ExecuteWithAuth<DialogDto>(restRequest);
+
+        return response ?? throw RequestException.NullResponce<DialogDto>();
+    }
+
+    public async Task<List<DialogLastModifiedOnly>> GetDialogModificationDates()
+    {
+        var restRequest = new RestRequest($"{Dialogs}");
+
+        var response = await ExecuteWithAuth<List<DialogLastModifiedOnly>>(restRequest);
+
+        return response ?? throw RequestException.NullResponce<List<DialogLastModifiedOnly>>();
+    }
+
+    public async Task<DialogUsersOnly> GetDialogUsers(int dialogId)
+    {
+        var restRequest = new RestRequest($"{Dialogs}{dialogId}");
+
+        var response = await ExecuteWithAuth<DialogUsersOnly>(restRequest);
+
+        return response ?? throw RequestException.NullResponce<DialogUsersOnly>();
     }
 
     #endregion
@@ -244,6 +278,15 @@ public class Client
         var response = await Execute(restRequest);
 
         return _refreshToken = response.Content ?? throw RequestException.NullResponce<UserDto>();
+    }
+
+    public async Task<UserDto> GetUser(int userId)
+    {
+        var restRequest = new RestRequest($"{Users}{userId}");
+
+        var response = await ExecuteWithAuth<UserDto>(restRequest);
+
+        return response ?? throw RequestException.NullResponce<UserDto>();
     }
 
     public async Task<UserDto> WhoAmI()

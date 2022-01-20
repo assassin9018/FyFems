@@ -12,7 +12,7 @@ namespace MyFemsApi.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/[controller]")]
-public class UsersController : Controller
+public class UsersController : BaseController
 {
     private readonly IMapper _mapper;
     private readonly UnitOfWork _unitOfWork;
@@ -26,14 +26,16 @@ public class UsersController : Controller
     /// <summary>
     /// Метод регистрации нового пользователя.
     /// </summary>
-    /// <param name="user">Новый пользователь.</param>
+    /// <param name="regRequest">Новый пользователь.</param>
     /// <returns>При успешной регистрации DTO нового пользователя.</returns>
     [HttpPost("Reg")]
     [AllowAnonymous]
-    public async Task<ActionResult<UserDto>> Registration([Required, FromBody] RegUserDto user)
+    public async Task<ActionResult<UserDto>> Registration([Required, FromBody] RegUserDto regRequest, [FromServices] PasswordHasher<User> hasher)
     {
-        var dbUser = _mapper.Map<RegUserDto, User>(user);
+        var dbUser = _mapper.Map<RegUserDto, User>(regRequest);
+        dbUser.PasswordHash = hasher.HashPassword(dbUser, regRequest.Password);
         await _unitOfWork.UserRepository.SaveAsync(dbUser);
+        await _unitOfWork.SaveAsync();
         return Ok(_mapper.Map<User, UserDto>(dbUser));
     }
 
@@ -56,7 +58,7 @@ public class UsersController : Controller
 
         ConfigOptions.JwtAuthOptions jwtOptions = new(configuration);
         var claims = new List<Claim> {
-            new(ClaimTypes.SerialNumber, user.Id.ToString()),
+            new(UserIdClaimName, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Name, user.FullName),
             new(ClaimTypes.MobilePhone, user.Phone)
@@ -78,13 +80,21 @@ public class UsersController : Controller
     [HttpGet("WhoAmI")]
     public async Task<ActionResult<UserDto>> WhoAmI()
     {
-        return Ok(new UserDto());
+        User currentUser = (await GetRequestUser(_unitOfWork.UserRepository));
+        return Ok(_mapper.Map<User, UserDto>(currentUser));
+    }
+
+    [HttpGet("{userId}")]
+    public async Task<ActionResult<UserDto>> GetUser(int userId)
+    {
+        User? user = await _unitOfWork.UserRepository.FindAsync(userId) ?? throw new ApiException();
+        return Ok(_mapper.Map<User, UserDto>(user));
     }
 
     [HttpGet("Search/{searchText}")]
     public async Task<IActionResult> Search(string searchText)
     {
-        var users = (await _unitOfWork.UserRepository.GetAsync(u => u.FullName.Contains(searchText, StringComparison.OrdinalIgnoreCase))).ToList();
+        var users = (await _unitOfWork.UserRepository.GetAsync(u => u.FullName.ToLower().Contains(searchText.ToLower()))).ToList();
 
         List<UserDto> dtoUsers = new(users.Count);
         foreach(var user in users)
@@ -96,9 +106,7 @@ public class UsersController : Controller
     [HttpPatch("ChangePass")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePassRequest request, [FromServices] PasswordHasher<User> hasher)
     {
-        User? user = (await _unitOfWork.UserRepository.GetAsync(u => u.Email == request.Email)).FirstOrDefault();
-        if(user is null)
-            throw new NotFoundException(nameof(user));
+        User user = await GetRequestUser(_unitOfWork.UserRepository);
 
         if(hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) != PasswordVerificationResult.Success)
             Unauthorized();

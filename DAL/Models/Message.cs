@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Models;
 
+#nullable disable
 [Index(nameof(DialogId), IsUnique = false, Name = "DialogIndex")]
 public class Message : EntityBase
 {
@@ -11,7 +12,8 @@ public class Message : EntityBase
     [ForeignKey(nameof(From))]
     public virtual User FromUser { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTime Created { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime Created { get; set; } = DateTime.UtcNow;
     [Required]
     [MaxLength(512)]
     public string Content { get; set; }

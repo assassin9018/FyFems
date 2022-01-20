@@ -7,12 +7,10 @@ namespace DAL.Repository;
 
 public class PostgreRepository<TEntity> : IRepository<TEntity> where TEntity : EntityBase
 {
-    private readonly MyFemsDbContext _dbContext;
     private readonly DbSet<TEntity> dbSet;
 
     public PostgreRepository(MyFemsDbContext dbContext)
     {
-        _dbContext = dbContext;
         dbSet = dbContext.Set<TEntity>();
     }
 
@@ -48,12 +46,17 @@ public class PostgreRepository<TEntity> : IRepository<TEntity> where TEntity : E
     #region Delete
 
     public void Delete(object id)
-        => Delete(Find(id));
+    {
+        TEntity? entity = Find(id);
+        if(entity is not null)
+            Delete(entity);
+    }
 
     public async Task DeleteAsync(object id)
     {
-        var value = await FindAsync(id);
-        await DeleteAsync(value);
+        TEntity? entity = await FindAsync(id);
+        if(entity is not null)
+            await DeleteAsync(entity);
     }
 
     public void Delete(TEntity entity)
