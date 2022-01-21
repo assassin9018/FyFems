@@ -2,7 +2,7 @@ using RestSharp;
 
 namespace RestApiClient;
 
-public class Client
+internal class MyFemsClient : IMyFemsClient
 {
     private readonly string _authHeaderName = "Authorization";
     private readonly string _basePartUrl = "api/";
@@ -13,16 +13,20 @@ public class Client
     private string? _email;
     private string? _password;
 
-    public Client(string serviceUrl, string? email, string? password, string? refreshToken = null)
+    public MyFemsClient(string serviceUrl)
     {
         _serviceUrl = serviceUrl;
-        _email = email;
-        _password = password;
         _libClient = new(new RestClientOptions()
         {
             BaseUrl = new Uri(_serviceUrl + _basePartUrl),
             Timeout = 60,
         });
+    }
+
+    public MyFemsClient(string serviceUrl, string? email, string? password, string? refreshToken = null) : this(serviceUrl)
+    {
+        _email = email;
+        _password = password;
         _refreshToken = refreshToken;
 
         if(email is not null && password is not null && _refreshToken is null)
@@ -85,22 +89,24 @@ public class Client
         _accessToken = await Login(new()
         {
             Email = _email,
-            Password= _password,
+            Password = _password,
         });
     }
 
     #endregion
 
     #region Attachments
-    public AttachmentDto GetAttachment(int attachId)
+
+    public async Task<AttachmentDto> GetAttachment(int attachId)
     {
         throw new NotImplementedException();
     }
 
-    public int PostAttachment(AttachmentDto attachment)
+    public async Task<int> PostAttachment(AttachmentDto attachment)
     {
         throw new NotImplementedException();
     }
+
     #endregion
 
     #region Contacts
@@ -207,12 +213,13 @@ public class Client
     #endregion
 
     #region Images
-    public ImageDto GetImage(int iamageId)
+
+    public async Task<ImageDto> GetImage(int iamageId)
     {
         throw new NotImplementedException();
     }
 
-    public int PostImage(ImageDto image)
+    public async Task<int> PostImage(ImageDto image)
     {
         throw new NotImplementedException();
     }
@@ -319,6 +326,13 @@ public class Client
     }
 
     #endregion
+
+    public void UpdateCrendentials(string email, string password, string refreshToken)
+    {
+        _email = email;
+        _password = password;
+        _refreshToken = refreshToken;
+    }
 
     public async Task<bool> IsServiceActive()
     {
