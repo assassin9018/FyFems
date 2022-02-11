@@ -6,6 +6,8 @@ using RestApiClient;
 using System;
 using System.Configuration;
 using System.Windows;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using MyFemsWpfClient.ViewModels;
 
 namespace MyFemsWpfClient;
 
@@ -39,6 +41,8 @@ public partial class App : Application
         {
             options.UseSqlite(dbConnection);
         });
+        services.AddSingleton<ApplicationViewModel>();
+        services.AddSingleton<UserViewModel>();
         services.AddMyFemsClient(serviceConnection);
         services.AddSingleton<MainWindow>();
     }
