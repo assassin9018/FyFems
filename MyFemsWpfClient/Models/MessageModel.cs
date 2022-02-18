@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace MyFemsWpfClient.Models;
 
-internal class MessageModel : ObservableObject
+internal partial class MessageModel : ObservableObject
 {
     [ObservableProperty]
     private int _id;

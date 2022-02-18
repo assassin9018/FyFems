@@ -2,7 +2,7 @@
 
 namespace MyFemsWpfClient.Models;
 
-internal class UserModel : ObservableObject
+internal partial class UserModel : ObservableObject
 {
     [ObservableProperty]
     private int _id;

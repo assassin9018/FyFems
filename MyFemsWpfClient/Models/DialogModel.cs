@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace MyFemsWpfClient.Models;
 
-internal class DialogModel : ObservableObject
+internal partial class DialogModel : ObservableObject
 {
     [ObservableProperty]
     private int _id;

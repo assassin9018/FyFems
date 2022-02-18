@@ -1,31 +1,39 @@
 ﻿using ClientLocalDAL.Repository;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MyFems.Dto;
 using MyFemsWpfClient.Models;
 using RestApiClient;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyFemsWpfClient.ViewModels;
 
-internal class ApplicationViewModel : ObservableObject
+internal partial class ApplicationViewModel : ObservableObject
 {
     private readonly IMyFemsClient _client;
     private readonly UnitOfWork _unitOfWork;
-    [ObservableProperty]
-    private readonly UserModel _userModel = new();
     [ObservableProperty]
     private bool _isLoggedIn;
     [ObservableProperty]
     private bool _isConnected;
     public ObservableCollection<UserModel> Users { get; set; } = new();
+    public ObservableCollection<ContactModel> Contacts { get; set; } = new();
+    public UserModel UserModel { get; } = new();
 
-    #region Comands declaration
+    #region Comands
 
     private IAsyncRelayCommand? _updateContactsCommand;
     public IAsyncRelayCommand UpdateContactsCommand 
-        => _updateContactsCommand ??=new AsyncRelayCommand(UpdateContacts);
+        => _updateContactsCommand ??=new AsyncRelayCommand(async (CancalationToken) =>
+        {
+            List<ContactDto> contactsDto = await _client.GetContacts();
+            var existed = Contacts.Select(x => x.Id).ToHashSet();
+
+        });
 
     #endregion
 
@@ -34,13 +42,4 @@ internal class ApplicationViewModel : ObservableObject
         _client = client;
         _unitOfWork = unitOfWork;
     }
-
-    #region Comands implementation
-
-    private Task UpdateContacts()
-    {
-        throw new NotImplementedException();
-    }
-
-    #endregion
 }

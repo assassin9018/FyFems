@@ -3,7 +3,7 @@ using System;
 
 namespace MyFemsWpfClient.Models;
 
-internal class ContactModel : ObservableObject
+internal partial class ContactModel : ObservableObject
 {
     [ObservableProperty]
     private int _id;

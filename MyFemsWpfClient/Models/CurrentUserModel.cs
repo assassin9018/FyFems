@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace MyFemsWpfClient.Models;
 
-internal class CurrentUserModel : UserModel
+internal partial class CurrentUserModel : UserModel
 {
     [ObservableProperty]
     private string _refreshToken = string.Empty;

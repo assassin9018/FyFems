@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MyFemsWpfClient.Models;
-internal class ImageInfo
+internal partial class ImageInfo
 {
 }

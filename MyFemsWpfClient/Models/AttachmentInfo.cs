@@ -1,5 +1,5 @@
 ﻿namespace MyFemsWpfClient.Models;
 
-internal class AttachmentInfo
+internal partial class AttachmentInfo
 {
 }
