@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestApiClient;
 
@@ -29,5 +24,5 @@ public class RequestException : Exception
     }
 
     internal static RequestException NullResponce<T>([CallerMemberName] string memberName = "")
-        => new RequestException($"{_defaultMessage} Responce is empty. Method name - {memberName}. Expected responce type - {typeof(T).Name}");
+        => new($"{_defaultMessage} Responce is empty. Method name - {memberName}. Expected responce type - {typeof(T).Name}");
 }

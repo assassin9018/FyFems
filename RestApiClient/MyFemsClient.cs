@@ -2,7 +2,7 @@ using RestSharp;
 
 namespace RestApiClient;
 
-internal class MyFemsClient : IMyFemsClient
+internal class MyFemsClient : IMyFemsFullClient
 {
     private readonly string _authHeaderName = "Authorization";
     private readonly string _basePartUrl = "api/";
@@ -77,7 +77,7 @@ internal class MyFemsClient : IMyFemsClient
     {
         if(string.IsNullOrWhiteSpace(_email) || string.IsNullOrWhiteSpace(_password))
             throw new InvalidOperationException("Invalid credentials");
-        _refreshToken = await Login(new()
+        _refreshToken = await LogIn(new()
         {
             Email = _email,
             Password = _password,
@@ -86,11 +86,56 @@ internal class MyFemsClient : IMyFemsClient
 
     private async Task UpdateAccessToken()
     {
-        _accessToken = await Login(new()
+        _accessToken = await LogIn(new()
         {
             Email = _email,
             Password = _password,
         });
+    }
+
+    #endregion
+
+    #region Account
+
+    private const string Accounts = $"{nameof(Accounts)}/";
+
+    public async Task<UserDto> Reg(RegUserDto user)
+    {
+        var restRequest = new RestRequest($"{Accounts}Reg/", Method.Post)
+            .AddJsonBody(user);
+
+        var response = await Execute<UserDto>(restRequest);
+
+        return response ?? throw RequestException.NullResponce<UserDto>();
+    }
+
+    public async Task<string> LogIn(AuthRequest request)
+    {
+        if(request.Email != _email || request.Password != _password)
+            (_email, _password) = (request.Email, request.Password);
+
+        var restRequest = new RestRequest($"{Accounts}Login/")
+            .AddJsonBody(request);
+
+        var response = await Execute(restRequest);
+
+        return _refreshToken = response.Content ?? throw RequestException.NullResponce<UserDto>();
+    }
+
+    public async Task LogOut(int tokenId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<bool> ChangePass(ChangePassRequest request)
+    {
+        var restRequest = new RestRequest($"{Accounts}ChangePass/", Method.Patch)
+            .AddJsonBody(request);
+
+        var response = await Execute(restRequest);
+
+        string content = response.Content ?? throw RequestException.NullResponce<bool>();
+        return bool.TryParse(content, out bool result) && result;
     }
 
     #endregion
@@ -264,29 +309,6 @@ internal class MyFemsClient : IMyFemsClient
 
     private const string Users = $"{nameof(Users)}/";
 
-    public async Task<UserDto> Reg(RegUserDto user)
-    {
-        var restRequest = new RestRequest($"{Users}Reg/", Method.Post)
-            .AddJsonBody(user);
-
-        var response = await Execute<UserDto>(restRequest);
-
-        return response ?? throw RequestException.NullResponce<UserDto>();
-    }
-
-    public async Task<string> Login(AuthRequest request)
-    {
-        if(request.Email != _email || request.Password != _password)
-            (_email, _password) = (request.Email, request.Password);
-
-        var restRequest = new RestRequest($"{Users}Login/")
-            .AddJsonBody(request);
-
-        var response = await Execute(restRequest);
-
-        return _refreshToken = response.Content ?? throw RequestException.NullResponce<UserDto>();
-    }
-
     public async Task<UserDto> GetUser(int userId)
     {
         var restRequest = new RestRequest($"{Users}{userId}");
@@ -312,17 +334,6 @@ internal class MyFemsClient : IMyFemsClient
         var response = await ExecuteWithAuth<List<UserDto>>(restRequest);
 
         return response ?? throw RequestException.NullResponce<List<UserDto>>();
-    }
-
-    public async Task<bool> ChangePass(ChangePassRequest request)
-    {
-        var restRequest = new RestRequest($"{Users}ChangePass/", Method.Patch)
-            .AddJsonBody(request);
-
-        var response = await Execute(restRequest);
-
-        string content = response.Content ?? throw RequestException.NullResponce<bool>();
-        return bool.TryParse(content, out bool result) && result;
     }
 
     #endregion

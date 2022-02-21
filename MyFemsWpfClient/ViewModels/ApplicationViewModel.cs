@@ -14,7 +14,7 @@ namespace MyFemsWpfClient.ViewModels;
 
 internal partial class ApplicationViewModel : ObservableObject
 {
-    private readonly IMyFemsClient _client;
+    private readonly IMyFemsFullClient _client;
     private readonly UnitOfWork _unitOfWork;
     [ObservableProperty]
     private bool _isLoggedIn;
@@ -37,7 +37,7 @@ internal partial class ApplicationViewModel : ObservableObject
 
     #endregion
 
-    public ApplicationViewModel(IMyFemsClient client, UnitOfWork unitOfWork)
+    public ApplicationViewModel(IMyFemsFullClient client, UnitOfWork unitOfWork)
     {
         _client = client;
         _unitOfWork = unitOfWork;
