@@ -2,9 +2,9 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace MyFemsWpfClient.Models;
+namespace ClientModels;
 
-internal partial class DialogModel : ObservableObject
+public partial class DialogModel : ObservableObject
 {
     [ObservableProperty]
     private int _id;

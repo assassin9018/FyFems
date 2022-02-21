@@ -7,8 +7,7 @@ using System;
 using System.Configuration;
 using System.Windows;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using MyFemsWpfClient.ViewModels;
-using MyFemsWpfClient.Models;
+using ClientViewModels;
 
 namespace MyFemsWpfClient;
 

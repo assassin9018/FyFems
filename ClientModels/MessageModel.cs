@@ -1,11 +1,9 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using MyFemsWpfClient.Models;
-using System;
 using System.Collections.ObjectModel;
 
-namespace MyFemsWpfClient.Models;
+namespace ClientModels;
 
-internal partial class MessageModel : ObservableObject
+public partial class MessageModel : ObservableObject
 {
     [ObservableProperty]
     private int _id;

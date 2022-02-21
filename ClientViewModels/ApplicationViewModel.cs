@@ -1,18 +1,14 @@
 ﻿using ClientLocalDAL.Repository;
+using ClientModels;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MyFems.Dto;
-using MyFemsWpfClient.Models;
 using RestApiClient;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MyFemsWpfClient.ViewModels;
+namespace ClientViewModels;
 
-internal partial class ApplicationViewModel : ObservableObject
+public partial class ApplicationViewModel : ObservableObject
 {
     private readonly IMyFemsFullClient _client;
     private readonly UnitOfWork _unitOfWork;
@@ -27,13 +23,13 @@ internal partial class ApplicationViewModel : ObservableObject
     #region Comands
 
     private IAsyncRelayCommand? _updateContactsCommand;
-    public IAsyncRelayCommand UpdateContactsCommand 
-        => _updateContactsCommand ??=new AsyncRelayCommand(async (CancalationToken) =>
-        {
-            List<ContactDto> contactsDto = await _client.GetContacts();
-            var existed = Contacts.Select(x => x.Id).ToHashSet();
+    public IAsyncRelayCommand UpdateContactsCommand
+        => _updateContactsCommand ??= new AsyncRelayCommand(async (CancalationToken) =>
+         {
+             List<ContactDto> contactsDto = await _client.GetContacts();
+             var existed = Contacts.Select(x => x.Id).ToHashSet();
 
-        });
+         });
 
     #endregion
 

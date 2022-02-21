@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ClientLocalDAL\ClientLocalDAL.csproj" />
+    <ProjectReference Include="..\ClientViewModels\ClientViewModels.csproj" />
     <ProjectReference Include="..\Dto\Dto.csproj" />
     <ProjectReference Include="..\RestApiClient\RestApiClient.csproj" />
     <ProjectReference Include="..\Utils\Utils.csproj" />

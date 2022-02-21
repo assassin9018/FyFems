@@ -1,8 +1,8 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace MyFemsWpfClient.Models;
+namespace ClientModels;
 
-internal partial class UserModel : ObservableObject
+public partial class UserModel : ObservableObject
 {
     [ObservableProperty]
     private int _id;
