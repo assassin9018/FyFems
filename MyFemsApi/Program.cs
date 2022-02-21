@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using MyFemsApi;
+using MyFemsApi.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,8 +35,8 @@ app.Run();
 
 void ConfigureServices(IServiceCollection services)
 {
-    services.AddControllers();
     string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+    services.AddControllers();
     services.AddNpgsql<MyFemsDbContext>(connection);
     services.AddScoped<UnitOfWork>();
 
@@ -55,6 +56,8 @@ void ConfigureServices(IServiceCollection services)
         options.Password.RequiredLength = 8;
         options.Password.RequiredUniqueChars = 1;
     });
+    services.AddPublicFemsServices();
+    services.AddPrivateFemsServices();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();
