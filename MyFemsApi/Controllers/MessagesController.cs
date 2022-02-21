@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyFemsApi.Services;
 
 namespace MyFemsApi.Controllers;
 
@@ -9,33 +10,17 @@ namespace MyFemsApi.Controllers;
 [Route("api/[controller]")]
 public class MessagesController : BaseController
 {
-    private readonly IMapper _mapper;
-    private readonly UnitOfWork _unit;
+    private readonly IMessagesService _service;
 
-    public MessagesController(IMapper mapper, UnitOfWork unitOfWork)
+    public MessagesController(IMessagesService service)
     {
-        _mapper = mapper;
-        _unit = unitOfWork;
+        _service = service;
     }
 
-    [HttpPost("{dialogId}")]
+    [HttpPost]
     public async Task<IActionResult> SendMessage([FromBody] MessageRequest messageRequest)
     {
-        const string userProps = nameof(DAL.Models.User.UserDialogs);
-        int fromUserId = RequestUserId;
-        Dialog? dialog = (await _unit.UserRepository
-            .GetAsync(x => x.Id == fromUserId, includeProperties: userProps))
-            .First().UserDialogs
-            .FirstOrDefault(x => x.Id == messageRequest.DialogId);
-        if(dialog is null)
-            throw new NotFoundException("Dialog not found.");
-
-        Message message = _mapper.Map<Message>(messageRequest);
-        message.From = fromUserId;
-        dialog.LastModified = DateTime.UtcNow;
-        _unit.MessageRepository.Save(message);
-        _unit.DialogRepository.Save(dialog);
-        await _unit.SaveAsync();
+        await _service.SendMessage(messageRequest, RequestUserId);
 
         return Ok();
     }
