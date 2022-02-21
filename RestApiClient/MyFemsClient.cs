@@ -2,7 +2,7 @@ using RestSharp;
 
 namespace RestApiClient;
 
-public class Client
+internal class MyFemsClient : IMyFemsFullClient
 {
     private readonly string _authHeaderName = "Authorization";
     private readonly string _basePartUrl = "api/";
@@ -13,16 +13,20 @@ public class Client
     private string? _email;
     private string? _password;
 
-    public Client(string serviceUrl, string? email, string? password, string? refreshToken = null)
+    public MyFemsClient(string serviceUrl)
     {
         _serviceUrl = serviceUrl;
-        _email = email;
-        _password = password;
         _libClient = new(new RestClientOptions()
         {
             BaseUrl = new Uri(_serviceUrl + _basePartUrl),
             Timeout = 60,
         });
+    }
+
+    public MyFemsClient(string serviceUrl, string? email, string? password, string? refreshToken = null) : this(serviceUrl)
+    {
+        _email = email;
+        _password = password;
         _refreshToken = refreshToken;
 
         if(email is not null && password is not null && _refreshToken is null)
@@ -73,7 +77,7 @@ public class Client
     {
         if(string.IsNullOrWhiteSpace(_email) || string.IsNullOrWhiteSpace(_password))
             throw new InvalidOperationException("Invalid credentials");
-        _refreshToken = await Login(new()
+        _refreshToken = await LogIn(new()
         {
             Email = _email,
             Password = _password,
@@ -82,25 +86,72 @@ public class Client
 
     private async Task UpdateAccessToken()
     {
-        _accessToken = await Login(new()
+        _accessToken = await LogIn(new()
         {
             Email = _email,
-            Password= _password,
+            Password = _password,
         });
     }
 
     #endregion
 
-    #region Attachments
-    public AttachmentDto GetAttachment(int attachId)
+    #region Account
+
+    private const string Accounts = $"{nameof(Accounts)}/";
+
+    public async Task<UserDto> Reg(RegUserDto user)
+    {
+        var restRequest = new RestRequest($"{Accounts}Reg/", Method.Post)
+            .AddJsonBody(user);
+
+        var response = await Execute<UserDto>(restRequest);
+
+        return response ?? throw RequestException.NullResponce<UserDto>();
+    }
+
+    public async Task<string> LogIn(AuthRequest request)
+    {
+        if(request.Email != _email || request.Password != _password)
+            (_email, _password) = (request.Email, request.Password);
+
+        var restRequest = new RestRequest($"{Accounts}Login/")
+            .AddJsonBody(request);
+
+        var response = await Execute(restRequest);
+
+        return _refreshToken = response.Content ?? throw RequestException.NullResponce<UserDto>();
+    }
+
+    public async Task LogOut(int tokenId)
     {
         throw new NotImplementedException();
     }
 
-    public int PostAttachment(AttachmentDto attachment)
+    public async Task<bool> ChangePass(ChangePassRequest request)
+    {
+        var restRequest = new RestRequest($"{Accounts}ChangePass/", Method.Patch)
+            .AddJsonBody(request);
+
+        var response = await Execute(restRequest);
+
+        string content = response.Content ?? throw RequestException.NullResponce<bool>();
+        return bool.TryParse(content, out bool result) && result;
+    }
+
+    #endregion
+
+    #region Attachments
+
+    public async Task<AttachmentDto> GetAttachment(int attachId)
     {
         throw new NotImplementedException();
     }
+
+    public async Task<int> PostAttachment(AttachmentDto attachment)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 
     #region Contacts
@@ -207,12 +258,13 @@ public class Client
     #endregion
 
     #region Images
-    public ImageDto GetImage(int iamageId)
+
+    public async Task<ImageDto> GetImage(int iamageId)
     {
         throw new NotImplementedException();
     }
 
-    public int PostImage(ImageDto image)
+    public async Task<int> PostImage(ImageDto image)
     {
         throw new NotImplementedException();
     }
@@ -257,29 +309,6 @@ public class Client
 
     private const string Users = $"{nameof(Users)}/";
 
-    public async Task<UserDto> Reg(RegUserDto user)
-    {
-        var restRequest = new RestRequest($"{Users}Reg/", Method.Post)
-            .AddJsonBody(user);
-
-        var response = await Execute<UserDto>(restRequest);
-
-        return response ?? throw RequestException.NullResponce<UserDto>();
-    }
-
-    public async Task<string> Login(AuthRequest request)
-    {
-        if(request.Email != _email || request.Password != _password)
-            (_email, _password) = (request.Email, request.Password);
-
-        var restRequest = new RestRequest($"{Users}Login/")
-            .AddJsonBody(request);
-
-        var response = await Execute(restRequest);
-
-        return _refreshToken = response.Content ?? throw RequestException.NullResponce<UserDto>();
-    }
-
     public async Task<UserDto> GetUser(int userId)
     {
         var restRequest = new RestRequest($"{Users}{userId}");
@@ -307,18 +336,14 @@ public class Client
         return response ?? throw RequestException.NullResponce<List<UserDto>>();
     }
 
-    public async Task<bool> ChangePass(ChangePassRequest request)
-    {
-        var restRequest = new RestRequest($"{Users}ChangePass/", Method.Patch)
-            .AddJsonBody(request);
-
-        var response = await Execute(restRequest);
-
-        string content = response.Content ?? throw RequestException.NullResponce<bool>();
-        return bool.TryParse(content, out bool result) && result;
-    }
-
     #endregion
+
+    public void UpdateCrendentials(string email, string password, string refreshToken)
+    {
+        _email = email;
+        _password = password;
+        _refreshToken = refreshToken;
+    }
 
     public async Task<bool> IsServiceActive()
     {
