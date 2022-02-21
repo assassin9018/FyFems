@@ -10,13 +10,13 @@ internal class AccountService : BaseService, IAccountService
 {
     private readonly IMapper _mapper;
     private readonly UnitOfWork _unitOfWork;
-    private readonly IServiceScope _scope;
+    private readonly IServiceProvider _provider;
 
-    public AccountService(IMapper mapper, UnitOfWork unitOfWork, IServiceScope scope)
+    public AccountService(IMapper mapper, UnitOfWork unitOfWork, IServiceProvider provider)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;
-        _scope = scope;
+        _provider = provider;
     }
 
     /// <summary>
@@ -26,9 +26,10 @@ internal class AccountService : BaseService, IAccountService
     /// <returns>При успешной регистрации DTO нового пользователя.</returns>
     public async Task<UserDto> Registration(RegUserDto regRequest)
     {
-        PasswordHasher<User> hasher = _scope.ServiceProvider.GetService<PasswordHasher<User>>() ?? throw new InvalidOperationException();
+        PasswordHasher<User> hasher = _provider.GetService<PasswordHasher<User>>() ?? throw new InvalidOperationException();
         var dbUser = _mapper.Map<RegUserDto, User>(regRequest);
         dbUser.PasswordHash = hasher.HashPassword(dbUser, regRequest.Password);
+        dbUser.Created = DateTime.UtcNow;
         await _unitOfWork.UserRepository.SaveAsync(dbUser);
         await _unitOfWork.SaveAsync();
         return _mapper.Map<User, UserDto>(dbUser);
@@ -45,8 +46,8 @@ internal class AccountService : BaseService, IAccountService
     /// <exception cref="NotFoundException">При ошибке в паре почта\пароль.</exception>
     public async Task<string> LogIn(AuthRequest request)
     {
-        PasswordHasher<User> hasher = _scope.ServiceProvider.GetService<PasswordHasher<User>>() ?? throw new InvalidOperationException();
-        IConfiguration configuration = _scope.ServiceProvider.GetService<IConfiguration>() ?? throw new InvalidOperationException();
+        PasswordHasher<User> hasher = _provider.GetService<PasswordHasher<User>>() ?? throw new InvalidOperationException();
+        IConfiguration configuration = _provider.GetService<IConfiguration>() ?? throw new InvalidOperationException();
 
         User? user = (await _unitOfWork.UserRepository.GetAsync(x => x.Email == request.Email)).FirstOrDefault();
         if(user is null || hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) != PasswordVerificationResult.Success)
@@ -75,7 +76,7 @@ internal class AccountService : BaseService, IAccountService
 
     public async Task ChangePassword(ChangePassRequest request, int requestUserId)
     {
-        PasswordHasher<User> hasher = _scope.ServiceProvider.GetService<PasswordHasher<User>>() ?? throw new InvalidOperationException();
+        PasswordHasher<User> hasher = _provider.GetService<PasswordHasher<User>>() ?? throw new InvalidOperationException();
         User user = await GetUser(_unitOfWork, requestUserId);
 
         if(hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) != PasswordVerificationResult.Success)

@@ -25,7 +25,7 @@ internal class MessagesService : BaseService, IMessagesService
 
         Message message = _mapper.Map<Message>(messageRequest);
         message.From = fromUserId;
-        dialog.LastModified = DateTime.UtcNow;
+        message.Created = dialog.LastModified = DateTime.UtcNow;
         _unit.MessageRepository.Save(message);
         _unit.DialogRepository.Save(dialog);
         await _unit.SaveAsync();

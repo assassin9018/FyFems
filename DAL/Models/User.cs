@@ -18,8 +18,7 @@ public class User : EntityBase
     [Required]
     [Phone]
     public string Phone { get; set; }
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public DateTime Created { get; set; } = DateTime.UtcNow;
+    public DateTime Created { get; set; }
     public DateOnly BirthDate { get; set; }
     public string FullName { get; }
     public int Age { get; }

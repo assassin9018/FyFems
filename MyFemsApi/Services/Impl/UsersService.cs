@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 
 namespace MyFemsApi.Services.Impl;
 
@@ -8,7 +7,7 @@ internal class UsersService : BaseService, IUsersService
     private readonly IMapper _mapper;
     private readonly UnitOfWork _unitOfWork;
 
-    public UsersService(IMapper mapper, UnitOfWork unitOfWork, IServiceScope scope)
+    public UsersService(IMapper mapper, UnitOfWork unitOfWork)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;

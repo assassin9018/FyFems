@@ -12,8 +12,7 @@ public class Message : EntityBase
     [ForeignKey(nameof(From))]
     public virtual User FromUser { get; set; }
     public bool IsDeleted { get; set; }
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public DateTime Created { get; set; } = DateTime.UtcNow;
+    public DateTime Created { get; set; }
     [Required]
     [MaxLength(512)]
     public string Content { get; set; }

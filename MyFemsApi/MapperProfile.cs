@@ -28,6 +28,6 @@ public class MapperProfile : Profile
         CreateMap<Contact, ContactDto>();
 
         CreateMap<ContactRequest, ContactRequestDto>()
-            .ForMember(nameof(ContactRequestDto), x => x.MapFrom(v => (ContactRequestDtoStatus)v.Status));
+            .ForMember(nameof(ContactRequestDto.Status), x => x.MapFrom(v => (ContactRequestDtoStatus)v.Status));
     }
 }

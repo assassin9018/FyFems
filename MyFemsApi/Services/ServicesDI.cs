@@ -4,19 +4,15 @@ namespace MyFemsApi.Services;
 
 public static class ServicesDI
 {
-    public static IServiceCollection AddPublicFemsServices(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddFemsServices(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddScoped<IAttachmentsService, AttachmentsService>();
-        serviceCollection.AddScoped<IContactsService, ContactsService>();
-        serviceCollection.AddScoped<IDialogsService, DialogsService>();
-        serviceCollection.AddScoped<IImagesService, ImagesService>();
-        serviceCollection.AddScoped<IMessagesService, MessagesService>();
-        serviceCollection.AddScoped<IUsersService, UsersService>();
-        return serviceCollection;
-    }
-
-    internal static IServiceCollection AddPrivateFemsServices(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection;
+        return serviceCollection
+            .AddScoped<IAccountService, AccountService>()
+            .AddScoped<IAttachmentsService, AttachmentsService>()
+            .AddScoped<IContactsService, ContactsService>()
+            .AddScoped<IDialogsService, DialogsService>()
+            .AddScoped<IImagesService, ImagesService>()
+            .AddScoped<IMessagesService, MessagesService>()
+            .AddScoped<IUsersService, UsersService>();
     }
 }

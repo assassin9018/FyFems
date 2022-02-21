@@ -56,8 +56,7 @@ void ConfigureServices(IServiceCollection services)
         options.Password.RequiredLength = 8;
         options.Password.RequiredUniqueChars = 1;
     });
-    services.AddPublicFemsServices();
-    services.AddPrivateFemsServices();
+    services.AddFemsServices();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();
