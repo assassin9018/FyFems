@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MyFemsWpfClient.Controls.UserIconControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyFemsWpfClient.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="150">
+    <Rectangle>
+        <Rectangle.Fill>
+            <DrawingBrush>
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <EllipseGeometry RadiusX="1" RadiusY="1" Center="1,1" />
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Brush>
+                                <ImageBrush x:Name="Image" ImageSource="C:\Git\FyFems\MyFemsWpfClient\Assets\UserIcon.png"/>
+                            </GeometryDrawing.Brush>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+        </Rectangle.Fill>
+    </Rectangle>
+</UserControl>
