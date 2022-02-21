@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Windows;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using ClientViewModels;
+using MyFemsWpfClient.Dialogs;
 
 namespace MyFemsWpfClient;
 
@@ -44,6 +45,8 @@ public partial class App : Application
         services.AddSingleton<ApplicationViewModel>();
         services.AddMyFemsClient(serviceConnection);
         services.AddSingleton<MainWindow>();
+        services.AddSingleton<IDialogService, DialogService>();
+        services.AddSingleton<IFileService, FileService>();
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
