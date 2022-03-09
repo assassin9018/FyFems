@@ -14,8 +14,8 @@ public partial class MessageModel : ObservableObject
     [ObservableProperty]
     private DateTime _recived;
 
-    public ObservableCollection<ImageInfo> Images { get; set; } = new();
-    public ObservableCollection<AttachmentInfo> Attachments { get; set; } = new();
+    public ObservableCollection<ImageModel> Images { get; set; } = new();
+    public ObservableCollection<AttachmentModel> Attachments { get; set; } = new();
 
     public MessageModel(UserModel from)
     {
