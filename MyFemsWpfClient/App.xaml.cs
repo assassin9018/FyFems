@@ -36,7 +36,7 @@ public partial class App : Application
     private static void ConfigureServices(ServiceCollection services)
     {
         string dbConnection = ConfigurationManager.AppSettings.Get("DbConnection") ?? throw new NullReferenceException("Db connection string not found.");
-        string serviceConnection = ConfigurationManager.AppSettings.Get("DbConnection") ?? throw new NullReferenceException("Messenger service connection string not found.");
+        string serviceConnection = ConfigurationManager.AppSettings.Get("ServiceUri") ?? throw new NullReferenceException("Messenger service connection string not found.");
         services.AddDbContext<SqLiteDbContext>(options =>
         {
             options.UseSqlite(dbConnection);
