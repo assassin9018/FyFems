@@ -1,4 +1,5 @@
 using RestSharp;
+using System.Net;
 
 namespace RestApiClient;
 
@@ -125,6 +126,7 @@ internal class MyFemsClient : IMyFemsFullClient
     public async Task LogOut(int tokenId)
     {
         throw new NotImplementedException();
+        //todo implement
     }
 
     public async Task<bool> ChangePass(ChangePassRequest request)
@@ -145,11 +147,13 @@ internal class MyFemsClient : IMyFemsFullClient
     public async Task<AttachmentDto> GetAttachment(int attachId)
     {
         throw new NotImplementedException();
+        //todo implement
     }
 
     public async Task<int> PostAttachment(AttachmentDto attachment)
     {
         throw new NotImplementedException();
+        //todo implement
     }
 
     #endregion
@@ -262,11 +266,13 @@ internal class MyFemsClient : IMyFemsFullClient
     public async Task<ImageDto> GetImage(int iamageId)
     {
         throw new NotImplementedException();
+        //todo implement
     }
 
     public async Task<int> PostImage(ImageDto image)
     {
         throw new NotImplementedException();
+        //todo implement
     }
 
     #endregion
@@ -351,6 +357,6 @@ internal class MyFemsClient : IMyFemsFullClient
 
         var response = await Execute(restRequest);
 
-        return response.Content is not null;
+        return response.StatusCode == HttpStatusCode.OK && response.Content is not null;
     }
 }
