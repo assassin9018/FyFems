@@ -1,14 +1,13 @@
 ﻿using ClientLocalDAL.Context;
+using ClientViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MyFemsWpfClient.Dialogs;
 using MyFemsWpfClient.View;
 using RestApiClient;
 using System;
 using System.Configuration;
 using System.Windows;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using ClientViewModels;
-using MyFemsWpfClient.Dialogs;
 
 namespace MyFemsWpfClient;
 
@@ -17,7 +16,7 @@ namespace MyFemsWpfClient;
 /// </summary>
 public partial class App : Application
 {
-    private ServiceProvider _serviceProvider;
+    private readonly ServiceProvider _serviceProvider;
 
     public App()
     {
