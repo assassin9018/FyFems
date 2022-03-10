@@ -6,4 +6,8 @@
 	  <RootNamespace>MyFems.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" />
+  </ItemGroup>
+
 </Project>

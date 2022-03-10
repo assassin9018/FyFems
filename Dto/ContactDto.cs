@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NetEscapades.EnumGenerators;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyFems.Dto;
 
@@ -16,6 +17,7 @@ public class ContactRequestDto : BaseDto
     public ContactRequestDtoStatus Status { get; set; }
 }
 
+[EnumExtensions]
 public enum ContactRequestDtoStatus
 {
     [Display(Name = "Ожидает подтверждения")]
