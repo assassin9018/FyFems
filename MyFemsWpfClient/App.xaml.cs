@@ -1,14 +1,13 @@
 ﻿using ClientLocalDAL.Context;
+using ClientViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MyFemsWpfClient.Dialogs;
 using MyFemsWpfClient.View;
 using RestApiClient;
 using System;
 using System.Configuration;
 using System.Windows;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using ClientViewModels;
-using MyFemsWpfClient.Dialogs;
 
 namespace MyFemsWpfClient;
 
@@ -17,7 +16,7 @@ namespace MyFemsWpfClient;
 /// </summary>
 public partial class App : Application
 {
-    private ServiceProvider _serviceProvider;
+    private readonly ServiceProvider _serviceProvider;
 
     public App()
     {
@@ -37,7 +36,7 @@ public partial class App : Application
     private static void ConfigureServices(ServiceCollection services)
     {
         string dbConnection = ConfigurationManager.AppSettings.Get("DbConnection") ?? throw new NullReferenceException("Db connection string not found.");
-        string serviceConnection = ConfigurationManager.AppSettings.Get("DbConnection") ?? throw new NullReferenceException("Messenger service connection string not found.");
+        string serviceConnection = ConfigurationManager.AppSettings.Get("ServiceUri") ?? throw new NullReferenceException("Messenger service connection string not found.");
         services.AddDbContext<SqLiteDbContext>(options =>
         {
             options.UseSqlite(dbConnection);
