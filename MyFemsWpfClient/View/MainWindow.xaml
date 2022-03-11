@@ -6,11 +6,12 @@
         xmlns:uc="clr-namespace:MyFemsWpfClient.Controls"
         xmlns:f="clr-namespace:MyFemsWpfClient"
         mc:Ignorable="d"
-        Title="WPF Client for MyFEMS(My free education message service)"
+        Title="MyFEMS - My free education message service"
         Icon="/Assets/AppIcon.png"
         WindowStartupLocation="CenterScreen"
         Height="480" Width="900"
-        d:DesignHeight ="300" d:DesignWidth="600">
+        d:DesignHeight ="300" d:DesignWidth="600"
+        x:Name="MasterWindow">
     <Window.Resources>
         <ResourceDictionary>
 
@@ -18,7 +19,7 @@
     </Window.Resources>
 
     <Grid Background="{StaticResource gradientStyle}">
-        <uc:AuthView/>
-        <uc:MainView/>
+        <uc:AuthView DataContext="{Binding AuthVM}" Visibility="{Binding ElementName=MasterWindow, Path=DataContext.AuthVM.IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=inverse}"/>
+        <uc:MainView DataContext="{Binding MainVM}" Visibility="{Binding ElementName=MasterWindow, Path=DataContext.AuthVM.IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}}"/>
     </Grid>
 </Window>

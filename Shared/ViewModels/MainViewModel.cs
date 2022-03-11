@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace MyFems.ViewModels;
 
-internal class MainViewModel : ObservableObject
+public partial class MainViewModel : ObservableObject
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IMyFemsFullClient _client;

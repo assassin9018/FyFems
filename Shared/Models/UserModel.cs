@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 
 namespace MyFems.Models;
 
@@ -14,6 +15,8 @@ public partial class UserModel : ObservableObject
     private string _surname = string.Empty;
     [ObservableProperty]
     private string _email = string.Empty;
+    [ObservableProperty]
+    private DateOnly _birthDate;
 
     public string FullName => $"{_surname} {_name}";
 }

@@ -18,13 +18,8 @@ public class User : EntityBase
     [Required]
     [Phone]
     public string Phone { get; set; }
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public DateTime Created { get; set; } = DateTime.UtcNow;
+    public DateTime Created { get; set; }
     public DateOnly BirthDate { get; set; }
-    public string FullName { get; }
-    public int Age { get; }
-    [Required]
-    public string PasswordHash { get; set; }
     public virtual List<Dialog> UserDialogs { get; set; } = new();
     [InverseProperty(nameof(Contact.User))]
     public virtual List<Contact> Contacts { get; set; } = new();

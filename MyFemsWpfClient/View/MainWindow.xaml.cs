@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using MyFems.ViewModels;
+using System.Windows;
 
 namespace MyFemsWpfClient.View;
 
@@ -7,8 +8,9 @@ namespace MyFemsWpfClient.View;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(ApplicationViewModel applicationVM)
     {
+        DataContext = applicationVM;
         InitializeComponent();
     }
 }

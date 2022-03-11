@@ -1,4 +1,5 @@
 ﻿using ClientLocalDAL.Context;
+using ClientLocalDAL.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyFems.Services;
@@ -8,6 +9,7 @@ using MyFemsWpfClient.View;
 using RestApiClient;
 using System;
 using System.Configuration;
+using System.Reflection;
 using System.Windows;
 
 namespace MyFemsWpfClient;
@@ -37,16 +39,24 @@ public partial class App : Application
     private static void ConfigureServices(ServiceCollection services)
     {
         string dbConnection = ConfigurationManager.AppSettings.Get("DbConnection") ?? throw new NullReferenceException("Db connection string not found.");
-        string serviceConnection = ConfigurationManager.AppSettings.Get("ServiceUri") ?? throw new NullReferenceException("Messenger service connection string not found.");
         services.AddDbContext<SqLiteDbContext>(options =>
         {
             options.UseSqlite(dbConnection);
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
-        services.AddSingleton<ApplicationViewModel>();
+
+        string serviceConnection = ConfigurationManager.AppSettings.Get("ServiceUri") ?? throw new NullReferenceException("Messenger service connection string not found.");
         services.AddMyFemsClient(serviceConnection);
+
+        services.AddAutoMapper(Assembly.GetAssembly(typeof(MyFems.Clients.Shared.MapperProfile)));
+        services.AddSingleton<ApplicationViewModel>();
+        services.AddSingleton<AuthViewModel>();
+        services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
-        services.AddSingleton<IDialogService, DialogService>();
-        services.AddSingleton<IFileService, FileService>();
+
+        services.AddTransient<UnitOfWork>();
+        services.AddTransient<IDialogService, DialogService>();
+        services.AddTransient<IFileService, FileService>();
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
