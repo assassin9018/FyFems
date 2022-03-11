@@ -1,4 +1,4 @@
-﻿namespace ClientViewModels;
+﻿namespace MyFems.Services;
 
 public interface IFileService
 {

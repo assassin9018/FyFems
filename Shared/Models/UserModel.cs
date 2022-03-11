@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace ClientModels;
+namespace MyFems.Models;
 
 public partial class UserModel : ObservableObject
 {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace ClientModels;
+namespace MyFems.Models;
 
 public partial class DialogModel : ObservableObject
 {

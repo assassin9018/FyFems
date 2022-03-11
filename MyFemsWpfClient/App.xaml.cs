@@ -1,7 +1,8 @@
 ﻿using ClientLocalDAL.Context;
-using ClientViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MyFems.Services;
+using MyFems.ViewModels;
 using MyFemsWpfClient.Dialogs;
 using MyFemsWpfClient.View;
 using RestApiClient;
