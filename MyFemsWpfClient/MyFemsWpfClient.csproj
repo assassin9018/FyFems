@@ -57,6 +57,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="MyFemsClient.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Styles\Dark.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

@@ -17,10 +17,8 @@ public class Message : EntityBase
     [Required]
     [MaxLength(512)]
     public string Content { get; set; }
-    [MaxLength(10)]
-    public int[] Attachments { get; set; }
-    [MaxLength(10)]
-    public int[] Images { get; set; }
+    public string Attachments { get; set; }
+    public string Images { get; set; }
     public int DialogId { get; set; }
     public virtual Dialog Dialog { get; set; }
 }
