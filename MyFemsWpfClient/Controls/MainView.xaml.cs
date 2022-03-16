@@ -12,9 +12,4 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
     }
-
-    private void DialogItemClick(object sender, RoutedEventArgs e)
-    {
-
-    }
 }

@@ -2,7 +2,7 @@
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using RestApiClient;
 
-namespace MyFems.ViewModels;
+namespace MyFems.Clients.Shared.ViewModels;
 
 public partial class AuthViewModel : ObservableObject
 {

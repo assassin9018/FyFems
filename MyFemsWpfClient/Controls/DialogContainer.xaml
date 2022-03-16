@@ -3,10 +3,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MyFemsWpfClient.Controls"
+             xmlns:uc="clr-namespace:MyFemsWpfClient.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="40" d:DesignWidth="500"
+             Name="ListOfMessagesControl">
+    <ListBox Background="Transparent"
+             VirtualizingPanel.CacheLength="2" 
+             VirtualizingPanel.IsContainerVirtualizable="True" 
+             VirtualizingPanel.VirtualizationMode="Recycling" 
+             VirtualizingPanel.ScrollUnit="Pixel" 
+             ScrollViewer.IsDeferredScrollingEnabled="True"
+             x:Name="MessagesList"
+             ItemsSource="{Binding Messages}"
+             HorizontalContentAlignment="Stretch">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <Grid Height="40">
+                    <Grid Visibility="{Binding SelfMessage, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=inverse}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="10"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Text, Mode=OneTime}" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Recived, Mode=OneTime}" HorizontalAlignment="Right" Grid.Row="1" FontSize="8"/>
+                        </Grid>
+                        <uc:UserIconControl Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding SelfMessage, Converter={StaticResource boolToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <uc:UserIconControl Margin="5"/>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="10"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Text, Mode=OneTime}"  HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="0" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Recived, Mode=OneTime}"  HorizontalAlignment="Left" Grid.Row="1" FontSize="8"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+
 </UserControl>

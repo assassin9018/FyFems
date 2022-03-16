@@ -9,6 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles\_Colors.xaml" />
                 <ResourceDictionary Source="Styles\FontStyle.xaml" />
+                <ResourceDictionary Source="Templates\DialogsItemTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
             <vm:ViewModelLocator xmlns:vm="clr-namespace:MyFemsWpfClient" x:Key="Locator"/>

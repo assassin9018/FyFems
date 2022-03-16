@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace MyFems.Models;
+namespace MyFems.Clients.Shared.Models;
 
 internal partial class CurrentUserModel : UserModel
 {

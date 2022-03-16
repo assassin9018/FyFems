@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace MyFems.Models;
+namespace MyFems.Clients.Shared.Models;
 
 public partial class MessageModel : ObservableObject
 {
@@ -13,6 +13,8 @@ public partial class MessageModel : ObservableObject
     private string _text = string.Empty;
     [ObservableProperty]
     private DateTime _recived;
+    [ObservableProperty]
+    private bool _selfMessage;
 
     public ObservableCollection<ImageModel> Images { get; set; } = new();
     public ObservableCollection<AttachmentModel> Attachments { get; set; } = new();

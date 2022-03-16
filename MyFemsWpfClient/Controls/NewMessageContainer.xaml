@@ -5,8 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyFemsWpfClient.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="40" d:DesignWidth="500"
+             DataContext="{Binding Source={StaticResource Locator}, Path=NewMessageViewModel}">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="35"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="0" Margin="10,5,10,5" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button x:Name="SendMessage" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Command="{Binding SendMessage}"/>
     </Grid>
 </UserControl>

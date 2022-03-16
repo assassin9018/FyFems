@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ClientLocalDAL.Models;
+using MyFems.Clients.Shared.Models;
 using MyFems.Dto;
-using MyFems.Models;
 
 namespace MyFems.Clients.Shared;
 

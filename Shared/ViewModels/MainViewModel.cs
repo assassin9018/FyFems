@@ -3,12 +3,12 @@ using ClientLocalDAL.Models;
 using ClientLocalDAL.Repository;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MyFems.Clients.Shared.Models;
 using MyFems.Dto;
-using MyFems.Models;
 using RestApiClient;
 using System.Collections.ObjectModel;
 
-namespace MyFems.ViewModels;
+namespace MyFems.Clients.Shared.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
@@ -16,9 +16,14 @@ public partial class MainViewModel : ObservableObject
     private readonly IMyFemsFullClient _client;
     private readonly IMapper _mapper;
 
+    [ObservableProperty]
+    private DialogModel? _selectedDialog;
+    [ObservableProperty]
+    public UserModel _applicationUser = new();
+
     public ObservableCollection<UserModel> Users { get; set; } = new();
     public ObservableCollection<ContactModel> Contacts { get; set; } = new();
-    public UserModel UserModel { get; } = new();
+    public ObservableCollection<DialogModel> Dialogs { get; set; } = new();
 
     public MainViewModel(IMyFemsFullClient client, UnitOfWork unitOfWork, IMapper mapper)
     {
@@ -33,6 +38,28 @@ public partial class MainViewModel : ObservableObject
         var userEntities = unitOfWork.UserRepository.Get();
         IEnumerable<UserModel> mappedUsers = userEntities.Select(entity => _mapper.Map<User, UserModel>(entity));
         Users = new(mappedUsers);
+
+        Dialogs = new()
+        {
+            new()
+            {
+                Id = 0,
+                IsPrivate = false,
+                LastModified = DateTime.Now,
+                Name = "Беседа",
+                Users = new() { new() { }, new() { } },
+                Messages = new() { new(null) { Id = 0, Recived = DateTime.Now, SelfMessage = true, Text = "first" }, new(null) { Id = 1, SelfMessage = false, Text = "second" }, }
+            },
+            new()
+            {
+                Id = 1,
+                IsPrivate = true,
+                LastModified = DateTime.Now.AddDays(1),
+                Name = "Диалог с Васей",
+                Users = new() { new() { }, new() { } },
+                Messages = new() { new(null) { Id = 2, SelfMessage = false, Text = "third" }, new(null) { Id = 3, SelfMessage = true, Text = "fouth" }, }
+            }
+        };
     }
 
     #region Comands

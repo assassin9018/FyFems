@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace MyFems.Models;
+namespace MyFems.Clients.Shared.Models;
 
 public partial class ContactModel : ObservableObject
 {

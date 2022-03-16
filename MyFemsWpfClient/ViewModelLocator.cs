@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MyFems.ViewModels;
+using MyFems.Clients.Shared.ViewModels;
 
 namespace MyFemsWpfClient;
 
+#pragma warning disable CA1822 // Mark members as static
 public class ViewModelLocator
 {
     public ApplicationViewModel ApplicationViewModel
@@ -13,4 +14,8 @@ public class ViewModelLocator
 
     public MainViewModel MainViewModel
         => App.ServiceProvider.GetRequiredService<MainViewModel>();
+
+    public NewMessageViewModel NewMessageViewModel
+        => App.ServiceProvider.GetRequiredService<NewMessageViewModel>();
 }
+#pragma warning restore CA1822 // Mark members as static

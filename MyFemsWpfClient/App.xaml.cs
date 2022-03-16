@@ -4,15 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using MyFems.Clients.Shared.Models;
+using MyFems.Clients.Shared.ViewModels;
 using MyFems.Services;
-using MyFems.ViewModels;
 using MyFemsWpfClient.Dialogs;
 using MyFemsWpfClient.View;
 using RestApiClient;
 using System;
-using System.Configuration;
 using System.Reflection;
 using System.Windows;
 
@@ -69,6 +67,7 @@ public partial class App : Application
             .AddSingleton<ApplicationViewModel>()
             .AddSingleton<AuthViewModel>()
             .AddSingleton<MainViewModel>()
+            .AddSingleton<NewMessageViewModel>()
             .AddSingleton<MainWindow>();
 
         services.AddSingleton<UnitOfWork>()
