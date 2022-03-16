@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Styles\FontStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+            <vm:ViewModelLocator xmlns:vm="clr-namespace:MyFemsWpfClient" x:Key="Locator"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

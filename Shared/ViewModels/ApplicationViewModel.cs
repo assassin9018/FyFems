@@ -9,17 +9,11 @@ public partial class ApplicationViewModel : ObservableObject
     private readonly IMyFemsFullClient _client;
 
     [ObservableProperty]
-    private AuthViewModel _authVM;
-    [ObservableProperty]
-    private MainViewModel _mainVM;
-    [ObservableProperty]
     private bool _isConnected;
 
-    public ApplicationViewModel(IMyFemsFullClient client, AuthViewModel authVM, MainViewModel mainVM)
+    public ApplicationViewModel(IMyFemsFullClient client)
     {
         _client = client;
-        _authVM = authVM;
-        _mainVM = mainVM;
     }
 
     #region Comands

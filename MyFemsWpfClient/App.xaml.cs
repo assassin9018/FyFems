@@ -1,7 +1,11 @@
 ﻿using ClientLocalDAL.Context;
 using ClientLocalDAL.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using MyFems.Clients.Shared.Models;
 using MyFems.Services;
 using MyFems.ViewModels;
 using MyFemsWpfClient.Dialogs;
@@ -19,49 +23,74 @@ namespace MyFemsWpfClient;
 /// </summary>
 public partial class App : Application
 {
-    private readonly ServiceProvider _serviceProvider;
+    private readonly IHost _host;
+    public static IServiceProvider ServiceProvider { get; private set; }
 
     public App()
     {
-        ServiceCollection services = new();
         try
         {
-            ConfigureServices(services);
+            _host = CreateHostBuilder().Build();
+            ServiceProvider = _host.Services;
         }
         catch(Exception ex)
         {
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown();
         }
-        _serviceProvider = services.BuildServiceProvider();
     }
 
-    private static void ConfigureServices(ServiceCollection services)
+    public static IHostBuilder CreateHostBuilder(string[]? args = null)
     {
-        string dbConnection = ConfigurationManager.AppSettings.Get("DbConnection") ?? throw new NullReferenceException("Db connection string not found.");
+        return Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    builder.AddJsonFile("appsettings.json", optional: true);
+                })
+                .ConfigureServices(ConfigureServices);
+    }
+
+    private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
+    {
+        IConfigurationSection config = context.Configuration.GetSection(nameof(AppSettings));
+        services.Configure<AppSettings>(config);
+
+        string dbConnection = config.GetValue<string>(nameof(AppSettings.DbConnection));
         services.AddDbContext<SqLiteDbContext>(options =>
         {
             options.UseSqlite(dbConnection);
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        });
+        }, contextLifetime: ServiceLifetime.Singleton);
 
-        string serviceConnection = ConfigurationManager.AppSettings.Get("ServiceUri") ?? throw new NullReferenceException("Messenger service connection string not found.");
-        services.AddMyFemsClient(serviceConnection);
+        string serviceUri = config.GetValue<string>(nameof(AppSettings.ServiceUri));
+        services.AddMyFemsClient(serviceUri);
 
-        services.AddAutoMapper(Assembly.GetAssembly(typeof(MyFems.Clients.Shared.MapperProfile)));
-        services.AddSingleton<ApplicationViewModel>();
-        services.AddSingleton<AuthViewModel>();
-        services.AddSingleton<MainViewModel>();
-        services.AddSingleton<MainWindow>();
+        services.AddAutoMapper(Assembly.GetAssembly(typeof(MyFems.Clients.Shared.MapperProfile)))
+            .AddSingleton<ApplicationViewModel>()
+            .AddSingleton<AuthViewModel>()
+            .AddSingleton<MainViewModel>()
+            .AddSingleton<MainWindow>();
 
-        services.AddTransient<UnitOfWork>();
-        services.AddTransient<IDialogService, DialogService>();
-        services.AddTransient<IFileService, FileService>();
+        services.AddSingleton<UnitOfWork>()
+            .AddSingleton<IDialogService, DialogService>()
+            .AddSingleton<IFileService, FileService>();
     }
 
-    private void OnStartup(object sender, StartupEventArgs e)
+    protected void OnStartup(object sender, StartupEventArgs e)
     {
-        var mainWindow = _serviceProvider.GetService<MainWindow>() ?? throw new NullReferenceException("Exception on dependency injection!");
+        _host.Start();
+
+        var mainWindow = ServiceProvider.GetService<MainWindow>() ?? throw new NullReferenceException("Exception on dependency injection!");
         mainWindow.Show();
+    }
+
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        using(_host)
+        {
+            await _host.StopAsync(TimeSpan.FromSeconds(1));
+        }
+
+        base.OnExit(e);
     }
 }

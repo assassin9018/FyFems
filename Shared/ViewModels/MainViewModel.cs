@@ -27,11 +27,11 @@ public partial class MainViewModel : ObservableObject
         _mapper = mapper;
 
         var contactEntities = unitOfWork.ContactsRepository.Get();
-        IEnumerable<ContactModel> mappedContacts = contactEntities.Select(dto => _mapper.Map<Contact, ContactModel>(dto));
+        IEnumerable<ContactModel> mappedContacts = contactEntities.Select(entity => _mapper.Map<Contact, ContactModel>(entity));
         Contacts = new(mappedContacts);
 
         var userEntities = unitOfWork.UserRepository.Get();
-        IEnumerable<UserModel> mappedUsers = userEntities.Select(dto => _mapper.Map<User, UserModel>(dto));
+        IEnumerable<UserModel> mappedUsers = userEntities.Select(entity => _mapper.Map<User, UserModel>(entity));
         Users = new(mappedUsers);
     }
 
@@ -54,9 +54,10 @@ public partial class MainViewModel : ObservableObject
             await _unitOfWork.SaveAsync();
 
             Contacts.Clear();
-            IEnumerable<ContactModel> mappedContactModels = contactsDto
-               .Where(x => !existed.Contains(x.Id)).Select(dto => _mapper.Map<ContactDto, ContactModel>(dto));
-            foreach(var contact in mappedContactModels)
+            var contactEntities = _unitOfWork.ContactsRepository.Get();
+            IEnumerable<ContactModel> mappedContacts = contactEntities.Select(entity => _mapper.Map<Contact, ContactModel>(entity));
+            Contacts = new(mappedContacts);
+            foreach(var contact in mappedContacts)
                 Contacts.Add(contact);
         });
 

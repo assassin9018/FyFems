@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:uc="clr-namespace:MyFemsWpfClient.Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="600">
+      d:DesignHeight="300" d:DesignWidth="600"
+      DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
     
     <UserControl.Resources>
         <DataTemplate x:Key="DialogItemTemplate">

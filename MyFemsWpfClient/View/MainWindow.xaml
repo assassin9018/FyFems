@@ -11,7 +11,8 @@
         WindowStartupLocation="CenterScreen"
         Height="480" Width="900"
         d:DesignHeight ="300" d:DesignWidth="600"
-        x:Name="MasterWindow">
+        x:Name="MasterWindow"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ApplicationViewModel}">
     <Window.Resources>
         <ResourceDictionary>
 
@@ -19,7 +20,7 @@
     </Window.Resources>
 
     <Grid Background="{StaticResource gradientStyle}">
-        <uc:AuthView DataContext="{Binding AuthVM}" Visibility="{Binding ElementName=MasterWindow, Path=DataContext.AuthVM.IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=inverse}"/>
-        <uc:MainView DataContext="{Binding MainVM}" Visibility="{Binding ElementName=MasterWindow, Path=DataContext.AuthVM.IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}}"/>
+        <uc:AuthView DataContext="{Binding Source={StaticResource Locator}, Path=AuthVM}" Visibility="{Binding ElementName=MasterWindow, Path=DataContext.AuthVM.IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=inverse}"/>
+        <uc:MainView DataContext="{Binding Source={StaticResource Locator}, Path=MainVM}" Visibility="{Binding ElementName=MasterWindow, Path=DataContext.AuthVM.IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}}"/>
     </Grid>
 </Window>
