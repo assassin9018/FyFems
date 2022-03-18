@@ -9,7 +9,7 @@ public class MapperProfile : Profile
         CreateMap<User, UserDto>()
             .ForMember(nameof(UserDto.BirthDate),
                        x => x.MapFrom(v => v.BirthDate.ToDateTime(TimeOnly.MinValue)));
-        CreateMap<RegUserDto, User>()
+        CreateMap<RegUserRequest, User>()
             .ForMember(nameof(User.BirthDate),
                        x => x.MapFrom(v => DateOnly.FromDateTime(v.BirthDate)));
 

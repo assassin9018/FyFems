@@ -24,10 +24,10 @@ internal class AccountService : BaseService, IAccountService
     /// </summary>
     /// <param name="regRequest">Новый пользователь.</param>
     /// <returns>При успешной регистрации DTO нового пользователя.</returns>
-    public async Task<UserDto> Registration(RegUserDto regRequest)
+    public async Task<UserDto> Registration(RegUserRequest regRequest)
     {
         PasswordHasher<User> hasher = _provider.GetService<PasswordHasher<User>>() ?? throw new InvalidOperationException();
-        var dbUser = _mapper.Map<RegUserDto, User>(regRequest);
+        var dbUser = _mapper.Map<RegUserRequest, User>(regRequest);
         dbUser.PasswordHash = hasher.HashPassword(dbUser, regRequest.Password);
         dbUser.Created = DateTime.UtcNow;
         await _unitOfWork.UserRepository.SaveAsync(dbUser);

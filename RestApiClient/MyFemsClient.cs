@@ -100,7 +100,7 @@ internal class MyFemsClient : IMyFemsFullClient
 
     private const string Accounts = $"{nameof(Accounts)}/";
 
-    public async Task<UserDto> Reg(RegUserDto user)
+    public async Task<UserDto> Reg(RegUserRequest user)
     {
         var restRequest = new RestRequest($"{Accounts}Reg/", Method.Post)
             .AddJsonBody(user);

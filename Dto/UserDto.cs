@@ -12,7 +12,7 @@ public class UserDto : BaseDto
     public int Age { get; set; }
 }
 
-public class RegUserDto : AuthRequest
+public class RegUserRequest : AuthRequest
 {
     [Required]
     [MinLength(1)]

@@ -24,7 +24,7 @@ public class AccountsController : BaseController
     /// <returns>При успешной регистрации DTO нового пользователя.</returns>
     [HttpPost("Reg")]
     [AllowAnonymous]
-    public async Task<ActionResult<UserDto>> Registration([Required, FromBody] RegUserDto regRequest)
+    public async Task<ActionResult<UserDto>> Registration([Required, FromBody] RegUserRequest regRequest)
     {
         var result = await _accountService.Registration(regRequest);
 
