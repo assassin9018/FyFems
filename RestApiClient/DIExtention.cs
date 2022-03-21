@@ -8,14 +8,14 @@ public static class DIExtention
     {
         services.AddSingleton<IMyFemsFullClient, MyFemsClient>(x => new MyFemsClient(restServiceConnection));
 
-        services.AddSingleton(x => x.GetService<IFemsAccountsClient>()!);
-        services.AddSingleton(x => x.GetService<IFemsAttachmentsClient>()!);
-        services.AddSingleton(x => x.GetService<IFemsBaseClient>()!);
-        services.AddSingleton(x => x.GetService<IFemsContactsClient>()!);
-        services.AddSingleton(x => x.GetService<IFemsDialogsClient>()!);
-        services.AddSingleton(x => x.GetService<IFemsImagesClient>()!);
-        services.AddSingleton(x => x.GetService<IFemsMessagesClient>()!);
-        services.AddSingleton(x => x.GetService<IFemsUsersClient>()!);
+        services.AddSingleton<IFemsAccountsClient>(x => x.GetService<IMyFemsFullClient>()!);
+        services.AddSingleton<IFemsAttachmentsClient>(x => x.GetService<IMyFemsFullClient>()!);
+        services.AddSingleton<IFemsBaseClient>(x => x.GetService<IMyFemsFullClient>()!);
+        services.AddSingleton<IFemsContactsClient>(x => x.GetService<IMyFemsFullClient>()!);
+        services.AddSingleton<IFemsDialogsClient>(x => x.GetService<IMyFemsFullClient>()!);
+        services.AddSingleton<IFemsImagesClient>(x => x.GetService<IMyFemsFullClient>()!);
+        services.AddSingleton<IFemsMessagesClient>(x => x.GetService<IMyFemsFullClient>()!);
+        services.AddSingleton<IFemsUsersClient>(x => x.GetService<IMyFemsFullClient>()!);
 
         return services;
     }
