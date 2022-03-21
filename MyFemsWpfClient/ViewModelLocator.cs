@@ -17,5 +17,8 @@ public class ViewModelLocator
 
     public NewMessageViewModel NewMessageViewModel
         => App.ServiceProvider.GetRequiredService<NewMessageViewModel>();
+
+    public RegistrationViewModel RegistrationViewModel
+        => App.ServiceProvider.GetRequiredService<RegistrationViewModel>();
 }
 #pragma warning restore CA1822 // Mark members as static

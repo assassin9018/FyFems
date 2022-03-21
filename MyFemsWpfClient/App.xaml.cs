@@ -9,6 +9,7 @@ using MyFems.Clients.Shared.ViewModels;
 using MyFems.Services;
 using MyFemsWpfClient.Dialogs;
 using MyFemsWpfClient.View;
+using MyFemsWpfClient.Windows;
 using RestApiClient;
 using System;
 using System.Reflection;
@@ -68,18 +69,20 @@ public partial class App : Application
             .AddSingleton<AuthViewModel>()
             .AddSingleton<MainViewModel>()
             .AddSingleton<NewMessageViewModel>()
-            .AddSingleton<MainWindow>();
-
-        services.AddSingleton<UnitOfWork>()
+            .AddSingleton<MainWindow>()
+            .AddSingleton<UnitOfWork>()
             .AddSingleton<IDialogService, DialogService>()
             .AddSingleton<IFileService, FileService>();
+
+        services.AddSingleton<RegistrationViewModel>()
+            .AddSingleton<RegistrationWindow>();
     }
 
     protected void OnStartup(object sender, StartupEventArgs e)
     {
         _host.Start();
 
-        var mainWindow = ServiceProvider.GetService<MainWindow>() ?? throw new NullReferenceException("Exception on dependency injection!");
+        var mainWindow = ServiceProvider.GetService<MainWindow>();// ?? throw new NullReferenceException("Exception on dependency injection!");
         mainWindow.Show();
     }
 

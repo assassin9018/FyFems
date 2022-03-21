@@ -15,7 +15,7 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=ApplicationViewModel}">
 
     <Grid Background="{StaticResource gradientStyle}">
-        <uc:AuthView x:Name="AuthView" DataContext="{Binding Source={StaticResource Locator}, Path=AuthViewModel}" Visibility="{Binding IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}}"/>
-        <uc:MainView x:Name="MainView" DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}" Visibility="{Binding ElementName=AuthView, Path=DataContext.IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=inverse}"/>
+        <uc:AuthView x:Name="AuthView" DataContext="{Binding Source={StaticResource Locator}, Path=AuthViewModel}" Visibility="{Binding IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=inverse}"/>
+        <uc:MainView x:Name="MainView" DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}" Visibility="{Binding ElementName=AuthView, Path=DataContext.IsLoggedIn, Converter={StaticResource boolToVisibilityConverter}}"/>
     </Grid>
 </Window>
