@@ -16,5 +16,11 @@ public partial class RegistrationWindow : Window
     }
 
     private void HandleCloseMessage()
-        => Close();
+        => Hide();
+
+    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        e.Cancel = true;
+        Hide();
+    }
 }

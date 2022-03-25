@@ -81,7 +81,7 @@ public partial class App : Application
             .AddSingleton<IFileService, FileService>();
 
         services.AddSingleton<RegistrationViewModel>()
-            .AddSingleton<RegistrationWindow>();
+            .AddSingleton<RegistrationWindow>(x=> new() { Owner = x.GetRequiredService<MainWindow>() });
 
         services.AddSingleton<IAppLogger, AppLogger>();
     }
