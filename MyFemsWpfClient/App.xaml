@@ -8,11 +8,13 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles\_Colors.xaml" />
                 <!--ResourceDictionary Source="Styles\FontStyle.xaml" />-->
-                <ResourceDictionary Source="Templates\DialogsItemTemplate.xaml" />
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
+                <ResourceDictionary Source="/ModernWpf;component/DensityStyles/Compact.xaml"/>
+                <ResourceDictionary Source="Templates\DialogsItemTemplate.xaml" />
+                <ResourceDictionary Source="Styles\_Colors.xaml" />
+                <ResourceDictionary Source="Styles\BaseStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
             <vm:ViewModelLocator xmlns:vm="clr-namespace:MyFemsWpfClient" x:Key="Locator"/>

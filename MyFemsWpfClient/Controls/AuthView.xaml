@@ -4,33 +4,34 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:ui="http://schemas.modernwpf.com/2019"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="600"
+      d:DesignHeight="400" d:DesignWidth="600"
       DataContext="{Binding Source={StaticResource Locator}, Path=AuthViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="45"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="70"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Пользователь" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Margin="5,2,5,5"/>
-            <ComboBox Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Margin="5"/>
+            <ComboBox Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Margin="5"
+                      ui:ControlHelper.PlaceholderText="Пользователь"/>
 
-            <TextBlock Text="Email" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="2" Margin="5,0,5,5"/>
-            <TextBox Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2" Margin="5"/>
+            <TextBox Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2" Margin="5"
+                      ui:ControlHelper.PlaceholderText="Email"/>
 
-            <TextBlock Text="Пароль" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="3" Margin="5,0,5,5"/>
-            <PasswordBox Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="3" Margin="5"/>
+            <PasswordBox Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="3" Margin="5"
+                      ui:ControlHelper.PlaceholderText="Пароль"/>
 
             <CheckBox Content="Сохранять пароль" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="4" Margin="5"/>
             <CheckBox Content="Оставаться авторизованным" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="4" Margin="5"/>
