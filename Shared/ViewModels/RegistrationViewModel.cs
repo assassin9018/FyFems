@@ -30,11 +30,10 @@ public partial class RegistrationViewModel : ObservableObject
         _dialogService = dialogService;
     }
 
-    private IAsyncRelayCommand? _sendRegRequestCommand;
-    public IAsyncRelayCommand SendRegRequestCommand
-        => _sendRegRequestCommand ??= new AsyncRelayCommand(async () =>
-        {
-            RegUserRequest request = new()
+    [ICommand]
+    private async Task SendRegRequest()
+    { 
+        RegUserRequest request = new()
             {
                 Surname = Surname,
                 Name = Name,
@@ -51,5 +50,5 @@ public partial class RegistrationViewModel : ObservableObject
                 _dialogService.ShowMessage("Регистрация прошла успешно!");
                 WeakReferenceMessenger.Default.Send<CloseWindowMessage>();
             }
-        });
+    }
 }

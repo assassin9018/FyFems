@@ -39,6 +39,7 @@ public partial class MainViewModel : ObservableObject
         IEnumerable<UserModel> mappedUsers = userEntities.Select(entity => _mapper.Map<User, UserModel>(entity));
         Users = new(mappedUsers);
 
+        //todo remove this
         Dialogs = new()
         {
             new()
@@ -64,29 +65,27 @@ public partial class MainViewModel : ObservableObject
 
     #region Comands
 
-    private IAsyncRelayCommand? _updateContactsCommand;
+    [ICommand]
+    private async Task UpdateContacts()
+    {
+        List<ContactDto> contactsDto = await _client.GetContacts();
+        var existed = Contacts.Select(x => x.Id).ToHashSet();
+        if(existed.Count == contactsDto.Count && contactsDto.All(x => existed.Contains(x.Id)))
+            return;
 
-    public IAsyncRelayCommand UpdateContactsCommand
-        => _updateContactsCommand ??= new AsyncRelayCommand(async (CancalationToken) =>
-        {
-            List<ContactDto> contactsDto = await _client.GetContacts();
-            var existed = Contacts.Select(x => x.Id).ToHashSet();
-            if(existed.Count == contactsDto.Count && contactsDto.All(x => existed.Contains(x.Id)))
-                return;
+        IEnumerable<Contact> notExistedContacts = contactsDto
+           .Where(x => !existed.Contains(x.Id)).Select(dto => _mapper.Map<ContactDto, Contact>(dto));
 
-            IEnumerable<Contact> notExistedContacts = contactsDto
-               .Where(x => !existed.Contains(x.Id)).Select(dto => _mapper.Map<ContactDto, Contact>(dto));
+        await _unitOfWork.ContactsRepository.SaveAllAsync(notExistedContacts);
+        await _unitOfWork.SaveAsync();
 
-            await _unitOfWork.ContactsRepository.SaveAllAsync(notExistedContacts);
-            await _unitOfWork.SaveAsync();
-
-            Contacts.Clear();
-            var contactEntities = _unitOfWork.ContactsRepository.Get();
-            IEnumerable<ContactModel> mappedContacts = contactEntities.Select(entity => _mapper.Map<Contact, ContactModel>(entity));
-            Contacts = new(mappedContacts);
-            foreach(var contact in mappedContacts)
-                Contacts.Add(contact);
-        });
+        Contacts.Clear();
+        var contactEntities = _unitOfWork.ContactsRepository.Get();
+        IEnumerable<ContactModel> mappedContacts = contactEntities.Select(entity => _mapper.Map<Contact, ContactModel>(entity));
+        Contacts = new(mappedContacts);
+        foreach(var contact in mappedContacts)
+            Contacts.Add(contact);
+    }
 
     #endregion
 }

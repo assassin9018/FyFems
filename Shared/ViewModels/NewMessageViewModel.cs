@@ -8,12 +8,9 @@ public partial class NewMessageViewModel : ObservableObject
     [ObservableProperty]
     private string _message;
 
-    private IAsyncRelayCommand? _sendMessageCommand;
-    public IAsyncRelayCommand SendMessage
-        => _sendMessageCommand ??= new AsyncRelayCommand(()
-            =>
-        {
-            Message = string.Empty;
-            return Task.CompletedTask;
-        });
+    [ICommand]
+    private async Task SendMessage()
+    {
+        Message = string.Empty;
+    }
 }

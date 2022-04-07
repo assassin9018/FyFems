@@ -22,9 +22,9 @@ public partial class AuthViewModel : ObservableObject
         _unitOfWork = unitOfWork;
     }
 
-    private IRelayCommand? _showRegViewCommand;
-    public IRelayCommand ShowRegViewCommand => _showRegViewCommand ??= new RelayCommand(() =>
+    [ICommand]
+    private void ShowRegView()
     {
         WeakReferenceMessenger.Default.Send<ShowRegistrationViewMessage>();
-    });
+    }
 }
