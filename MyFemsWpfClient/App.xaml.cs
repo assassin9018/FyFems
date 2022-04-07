@@ -4,16 +4,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MyFems.Clients.Shared.Models;
 using MyFems.Clients.Shared.ViewModels;
 using MyFems.Services;
 using MyFemsWpfClient.Dialogs;
+using MyFemsWpfClient.Helpers;
 using MyFemsWpfClient.View;
 using MyFemsWpfClient.Windows;
 using RestApiClient;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace MyFemsWpfClient;
 
@@ -22,8 +26,9 @@ namespace MyFemsWpfClient;
 /// </summary>
 public partial class App : Application
 {
+    private readonly IAppLogger _logger;
     private readonly IHost _host;
-    public static IServiceProvider ServiceProvider { get; private set; }
+    public static IServiceProvider ServiceProvider { get; private set; } = default!;
 
     public App()
     {
@@ -31,11 +36,12 @@ public partial class App : Application
         {
             _host = CreateHostBuilder().Build();
             ServiceProvider = _host.Services;
+            _logger = ServiceProvider.GetService<IAppLogger>() ?? throw new ApplicationException("ILogger does not exist at service container.");
         }
         catch(Exception ex)
         {
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            Shutdown();
+            throw;
         }
     }
 
@@ -75,14 +81,16 @@ public partial class App : Application
             .AddSingleton<IFileService, FileService>();
 
         services.AddSingleton<RegistrationViewModel>()
-            .AddSingleton<RegistrationWindow>();
+            .AddSingleton<RegistrationWindow>(x=> new() { Owner = x.GetRequiredService<MainWindow>() });
+
+        services.AddSingleton<IAppLogger, AppLogger>();
     }
 
     protected void OnStartup(object sender, StartupEventArgs e)
     {
         _host.Start();
-
-        var mainWindow = ServiceProvider.GetService<MainWindow>();// ?? throw new NullReferenceException("Exception on dependency injection!");
+        this.DispatcherUnhandledException += UnhandledExceptionHandler;
+        var mainWindow = ServiceProvider.GetService<MainWindow>() ?? throw new NullReferenceException("MainWindow does not exist at service container.");
         mainWindow.Show();
     }
 
@@ -94,5 +102,13 @@ public partial class App : Application
         }
 
         base.OnExit(e);
+    }
+
+    private void UnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e)
+    {
+        if(Debugger.IsAttached)
+            Debugger.Break();
+
+        _logger.Error(e.Exception);
     }
 }
