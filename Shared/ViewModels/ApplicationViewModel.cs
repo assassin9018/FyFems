@@ -18,19 +18,18 @@ public partial class ApplicationViewModel : ObservableObject
 
     #region Comands
 
-    private IAsyncRelayCommand? _pingServiceCommand;
-    public IAsyncRelayCommand PingService
-        => _pingServiceCommand ??= new AsyncRelayCommand(async () =>
+    [ICommand]
+    private async Task PingService()
+    {
+        try
         {
-            try
-            {
-                _isConnected = await _client.IsServiceActive();
-            }
-            catch
-            {
-                _isConnected = false;
-            }
-        });
+            _isConnected = await _client.IsServiceActive();
+        }
+        catch
+        {
+            _isConnected = false;
+        }
+    }
 
     #endregion
 }
