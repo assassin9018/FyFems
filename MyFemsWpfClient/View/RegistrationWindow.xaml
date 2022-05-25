@@ -26,8 +26,8 @@
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="35"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
@@ -49,8 +49,8 @@
             <TextBox Text="{Binding Phone}" Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="6" Margin="5"
                      ui:ControlHelper.PlaceholderText="Телефон"/>
 
-            <TextBlock Text="Дата рождения" Width="140" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="7" Margin="5,0,5,5"/>
-            <DatePicker SelectedDate="{Binding BirthDate}" Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="7" Margin="5"/>
+            <DatePicker SelectedDate="{Binding BirthDate}" Width="140" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="7" Margin="5" 
+                        ui:ControlHelper.PlaceholderText="Дата рождения"/>
 
             <Button IsDefault="True" Content="Подтвердить" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" Width="120"
                     Command="{Binding SendRegRequestCommand}"/>

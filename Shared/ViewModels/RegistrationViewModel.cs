@@ -32,23 +32,23 @@ public partial class RegistrationViewModel : ObservableObject
 
     [ICommand]
     private async Task SendRegRequest()
-    { 
+    {
         RegUserRequest request = new()
-            {
-                Surname = Surname,
-                Name = Name,
-                Email = Email,
-                Phone = Phone,
-                BirthDate = BirthDate,
-                //todo Password = Password,
-            };
-            
-            var result = await _client.Reg(request);
+        {
+            Surname = Surname,
+            Name = Name,
+            Email = Email,
+            Phone = Phone,
+            BirthDate = BirthDate,
+            //todo Password = Password,
+        };
 
-            if(result is not null)
-            {
-                _dialogService.ShowMessage("Регистрация прошла успешно!");
-                WeakReferenceMessenger.Default.Send<CloseWindowMessage>();
-            }
+        var result = await _client.Reg(request);
+
+        if(result is not null)
+        {
+            _dialogService.ShowMessage("Регистрация прошла успешно!");
+            WeakReferenceMessenger.Default.Send<CloseWindowMessage>();
+        }
     }
 }
