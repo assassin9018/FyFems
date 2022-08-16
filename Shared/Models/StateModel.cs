@@ -3,7 +3,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace MyFems.Clients.Shared.Models;
 
-public class StateModel
+public partial class StateModel : ObservableObject
 {
     [ObservableProperty]
     private int _id;
