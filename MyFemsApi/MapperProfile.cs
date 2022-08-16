@@ -13,12 +13,8 @@ public class MapperProfile : Profile
             .ForMember(nameof(User.BirthDate),
                        x => x.MapFrom(v => DateOnly.FromDateTime(v.BirthDate)));
 
-        CreateMap<MessageRequest, Message>()
-            .ForMember(nameof(Message.Attachments), x => x.MapFrom(v => v.Attachments.ToArray()))
-            .ForMember(nameof(Message.Images), x => x.MapFrom(v => v.Images.ToArray()));
-        CreateMap<Message, MessageDto>()
-            .ForMember(nameof(MessageDto.Attachments), x => x.MapFrom(c => c.Attachments.ToList()))
-            .ForMember(nameof(MessageDto.Images), x => x.MapFrom(v => v.Images.ToArray()));
+        CreateMap<MessageRequest, Message>();
+        CreateMap<Message, MessageDto>();
 
         CreateMap<Dialog, DialogDto>();
         CreateMap<Dialog, DialogLastModifiedOnly>();
