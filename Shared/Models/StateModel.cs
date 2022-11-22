@@ -10,7 +10,7 @@ public partial class StateModel : ObservableObject
     [ObservableProperty]
     private string _email = string.Empty;
     [ObservableProperty]
-    private string _password  = string.Empty;
+    private string _password = string.Empty;
     [ObservableProperty]
     private bool _savePassword;
     [ObservableProperty]

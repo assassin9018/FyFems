@@ -52,7 +52,7 @@ public partial class AuthViewModel : ObservableObject
         {
             Email = Email,
             Password = passwordProvider.GetPassword(),
-        };        
+        };
         try
         {
             string token = await _client.LogIn(request);
@@ -89,7 +89,7 @@ public partial class AuthViewModel : ObservableObject
             _unitOfWork.Save();
         }
         catch(RequestException ex)
-        { 
+        {
             _isLoggedIn = false;
             ExMessage = ex.Message;
         }

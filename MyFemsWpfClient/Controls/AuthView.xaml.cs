@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using MyFems.Clients.Shared.Messages;
 using MyFemsWpfClient.Windows;
 using System.Windows.Controls;

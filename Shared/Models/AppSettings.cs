@@ -2,6 +2,6 @@
 
 public class AppSettings
 {
-    public string DbConnection { get; set; }
-    public string ServiceUri { get; set; }
+    public string DbConnection { get; set; } = string.Empty;
+    public string ServiceUri { get; set; } = string.Empty;
 }

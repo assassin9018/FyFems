@@ -1,7 +1,7 @@
 ﻿namespace RestApiClient;
 
 public interface IFemsDialogsClient : IFemsBaseClient
-{ 
+{
     Task<List<DialogLastModifiedOnly>> GetDialogModificationDates();
     Task<List<DialogDto>> GetDialogs();
     Task<DialogUsersOnly> GetDialogUsers(int dialogId);

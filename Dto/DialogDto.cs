@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MyFems.Dto;
+﻿namespace MyFems.Dto;
 
 public class DialogDto : BaseDto
 {

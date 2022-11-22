@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyFemsApi.Services;
-using System.ComponentModel.DataAnnotations;
 
 namespace MyFemsApi.Controllers;
 

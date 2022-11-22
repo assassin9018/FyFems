@@ -20,7 +20,7 @@ internal class MyFemsClient : IMyFemsFullClient
         _libClient = new(new RestClientOptions()
         {
             BaseUrl = new Uri(_serviceUrl + _basePartUrl),
-            Timeout = 60,
+            MaxTimeout = 60,
         });
     }
 
@@ -78,6 +78,7 @@ internal class MyFemsClient : IMyFemsFullClient
     {
         if(string.IsNullOrWhiteSpace(_email) || string.IsNullOrWhiteSpace(_password))
             throw new InvalidOperationException("Invalid credentials");
+
         _refreshToken = await LogIn(new()
         {
             Email = _email,
@@ -87,6 +88,9 @@ internal class MyFemsClient : IMyFemsFullClient
 
     private async Task UpdateAccessToken()
     {
+        if(string.IsNullOrWhiteSpace(_email) || string.IsNullOrWhiteSpace(_password))
+            throw new InvalidOperationException("Invalid credentials");
+
         _accessToken = await LogIn(new()
         {
             Email = _email,

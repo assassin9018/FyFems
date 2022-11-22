@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using MyFems.Clients.Shared.Models;
 using MyFems.Clients.Shared.ViewModels;
 using MyFems.Services;
@@ -13,7 +12,6 @@ using MyFemsWpfClient.Helpers;
 using MyFemsWpfClient.View;
 using MyFemsWpfClient.Windows;
 using RestApiClient;
-using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
@@ -45,7 +43,7 @@ public partial class App : Application
         }
     }
 
-    public static IHostBuilder CreateHostBuilder(string[]? args = null)
+    public static IHostBuilder CreateHostBuilder()
     {
         return Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, builder) =>
@@ -60,14 +58,14 @@ public partial class App : Application
         IConfigurationSection config = context.Configuration.GetSection(nameof(AppSettings));
         services.Configure<AppSettings>(config);
 
-        string dbConnection = config.GetValue<string>(nameof(AppSettings.DbConnection));
+        string dbConnection = config.GetValue<string>(nameof(AppSettings.DbConnection))!;
         services.AddDbContext<SqLiteDbContext>(options =>
         {
             options.UseSqlite(dbConnection);
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }, contextLifetime: ServiceLifetime.Singleton);
 
-        string serviceUri = config.GetValue<string>(nameof(AppSettings.ServiceUri));
+        string serviceUri = config.GetValue<string>(nameof(AppSettings.ServiceUri))!;
         services.AddMyFemsClient(serviceUri);
 
         services.AddAutoMapper(Assembly.GetAssembly(typeof(MyFems.Clients.Shared.MapperProfile)))
@@ -81,7 +79,7 @@ public partial class App : Application
             .AddSingleton<IFileService, FileService>();
 
         services.AddSingleton<RegistrationViewModel>()
-            .AddSingleton<RegistrationWindow>(x=> new() { Owner = x.GetRequiredService<MainWindow>() });
+            .AddSingleton<RegistrationWindow>(x => new() { Owner = x.GetRequiredService<MainWindow>() });
 
         services.AddSingleton<IAppLogger, AppLogger>();
     }

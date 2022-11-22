@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using MyFems.Clients.Shared.Messages;
-using System;
 using MSLogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace MyFemsWpfClient.Helpers;

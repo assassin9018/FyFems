@@ -71,7 +71,7 @@ internal class AccountService : BaseService, IAccountService
     }
 
     public async Task LogOut(int tokenId)
-    { 
+    {
     }
 
     public async Task ChangePassword(ChangePassRequest request, int requestUserId)
