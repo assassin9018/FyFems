@@ -1,82 +1,79 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.18362.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows10.0.18362.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="appsettings.json" />
-    <None Remove="Assets\AppIcon.png" />
-    <None Remove="Assets\UserIcon.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="appsettings.json" />
+		<None Remove="Assets\AppIcon.png" />
+		<None Remove="Assets\UserIcon.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Page Remove="Styles\_Colors.xaml" />
-  </ItemGroup>
+	<ItemGroup>
+		<Page Remove="Styles\_Colors.xaml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
-    <PackageReference Include="ModernWpfUI" Version="0.9.4" />
-    <PackageReference Include="NLog" Version="4.7.14" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper"  />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection"  />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Microsoft.Extensions.Hosting"  />
+		<PackageReference Include="Microsoft.Toolkit.Mvvm"  />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+		<PackageReference Include="ModernWpfUI" />
+		<PackageReference Include="NLog"  />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ClientLocalDAL\ClientLocalDAL.csproj" />
-    <ProjectReference Include="..\Dto\Dto.csproj" />
-    <ProjectReference Include="..\RestApiClient\RestApiClient.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
-    <ProjectReference Include="..\Utils\Utils.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ClientLocalDAL\ClientLocalDAL.csproj" />
+		<ProjectReference Include="..\Dto\Dto.csproj" />
+		<ProjectReference Include="..\RestApiClient\RestApiClient.csproj" />
+		<ProjectReference Include="..\Shared\Shared.csproj" />
+		<ProjectReference Include="..\Utils\Utils.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Assets\AppIcon.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\UserIcon.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Styles\_Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Assets\AppIcon.png">
+			<CopyToOutputDirectory></CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\UserIcon.png">
+			<CopyToOutputDirectory></CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Styles\_Colors.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="MyFemsClient.sqlite">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="MyFemsClient.sqlite">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Styles\Dark.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\BaseStyles.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Templates\DialogsItemTemplate.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<Page Update="Styles\Dark.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Styles\BaseStyles.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Templates\DialogsItemTemplate.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+	</ItemGroup>
 
 </Project>

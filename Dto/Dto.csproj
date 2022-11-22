@@ -1,13 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  <LangVersion>10</LangVersion>
-	  <RootNamespace>MyFems.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>MyFems.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NetEscapades.EnumGenerators" />
+	</ItemGroup>
 
 </Project>
