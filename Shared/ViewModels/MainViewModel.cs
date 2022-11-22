@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ClientLocalDAL.Models;
 using ClientLocalDAL.Repository;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MyFems.Clients.Shared.Models;
 using MyFems.Dto;
 using RestApiClient;
